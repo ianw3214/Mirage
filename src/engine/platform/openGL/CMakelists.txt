@@ -1,1 +1,2 @@
+target_sources(Game PRIVATE glwrappers.cpp shader.cpp)
 target_sources(Game PRIVATE imgui_impl_opengl3.cpp)

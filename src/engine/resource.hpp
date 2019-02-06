@@ -1,6 +1,6 @@
 #pragma once
 
-#include "opengl/shader.hpp"
+#include "platform/opengl/shader.hpp"
 
 // TODO: (Ian) Use custom lightweight string implementation
 // TODO: (Ian) Use custom lightweight smart pointer implementation

@@ -4,18 +4,24 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include "glm/glm.hpp"
 
 class ResourceManager;
 class Renderer;
 class ImGuiWrapper;
 
+#include "camera.hpp"
+
 class State {
 public:
     void init();
     void shutdown();
+    
+    void onEvent(const SDL_Event& e);
     void update();
     void render();
 private:
+    Camera camera;
 };
 
 class Engine {

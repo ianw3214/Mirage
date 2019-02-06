@@ -1,29 +1,14 @@
 #include "imgui_wrapper.hpp"
 
-#include <SDL2/SDL_syswm.h> 
 #include "engine.hpp"
 
 #include "imgui.h"
 #include "platform/openGL/imgui_impl_opengl3.h"
 
-static bool         g_MousePressed[3] = { false, false, false };
-static SDL_Cursor*  g_MouseCursors[ImGuiMouseCursor_COUNT] = { 0 };
-static char*        g_ClipboardTextData = NULL;
-
-static const char* ImGui_ImplSDL2_GetClipboardText(void*) {
-    if (g_ClipboardTextData)
-        SDL_free(g_ClipboardTextData);
-    g_ClipboardTextData = SDL_GetClipboardText();
-    return g_ClipboardTextData;
-}
-
-static void ImGui_ImplSDL2_SetClipboardText(void*, const char* text) {
-    SDL_SetClipboardText(text);
-}
+#include <iostream>
 
 ImGuiWrapper::ImGuiWrapper() {
     // Initialize member variables first
-    g_ClipboardTextData = nullptr;
     g_window = Engine::getWindow();
 
     // Init ImGui
@@ -57,29 +42,7 @@ ImGuiWrapper::ImGuiWrapper() {
     io.KeyMap[ImGuiKey_Y] = SDL_SCANCODE_Y;
     io.KeyMap[ImGuiKey_Z] = SDL_SCANCODE_Z;
 
-    io.SetClipboardTextFn = ImGui_ImplSDL2_SetClipboardText;
-    io.GetClipboardTextFn = ImGui_ImplSDL2_GetClipboardText;
-    io.ClipboardUserData = NULL;
-
     ImGui_ImplOpenGL3_Init("#version 400");
-
-    g_MouseCursors[ImGuiMouseCursor_Arrow] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
-    g_MouseCursors[ImGuiMouseCursor_TextInput] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
-    g_MouseCursors[ImGuiMouseCursor_ResizeAll] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZEALL);
-    g_MouseCursors[ImGuiMouseCursor_ResizeNS] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENS);
-    g_MouseCursors[ImGuiMouseCursor_ResizeEW] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZEWE);
-    g_MouseCursors[ImGuiMouseCursor_ResizeNESW] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENESW);
-    g_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENWSE);
-    g_MouseCursors[ImGuiMouseCursor_Hand] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
-
-#ifdef _WIN32
-    SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(g_window, &wmInfo);
-    io.ImeWindowHandle = wmInfo.info.win.window;
-#else
-    (void)window;
-#endif
 }
 
 ImGuiWrapper::~ImGuiWrapper() {
@@ -107,23 +70,34 @@ void ImGuiWrapper::onEvent(const SDL_Event& e) {
     switch(e.type) {
         case SDL_MOUSEWHEEL:        onMouseWheelEvent(e.wheel, io);         break;
         case SDL_MOUSEBUTTONDOWN:   onMousePressedEvent(e.button, io);      break;
+        case SDL_MOUSEBUTTONUP:     onMouseReleasedEvent(e.button, io);     break;
+        case SDL_MOUSEMOTION:       onMouseMovedEvent(e.motion, io);        break;
         case SDL_TEXTINPUT:         onTextInputEvent(e.text, io);           break;
         case SDL_KEYDOWN:           onKeyDownEvent(e.key, io);              break;
         case SDL_KEYUP:             onKeyUpEvent(e.key, io);                break;
+        case SDL_WINDOWEVENT_RESIZED:   onWindowResizedEvent(e.window, io); break;
     }    
 }
 
 void ImGuiWrapper::onMouseWheelEvent(const SDL_MouseWheelEvent& e, ImGuiIO& io) {
-    if (e.x > 0) io.MouseWheelH += 1;
-    if (e.x < 0) io.MouseWheelH -= 1;
-    if (e.y > 0) io.MouseWheel += 1;
-    if (e.y < 0) io.MouseWheel -= 1;
+    io.MouseWheel += e.y;
+    io.MouseWheelH += e.x;
 }
 
 void ImGuiWrapper::onMousePressedEvent(const SDL_MouseButtonEvent& e, ImGuiIO& io) {
-    if (e.button == SDL_BUTTON_LEFT) g_MousePressed[0] = true;
-    if (e.button == SDL_BUTTON_RIGHT) g_MousePressed[1] = true;
-    if (e.button == SDL_BUTTON_MIDDLE) g_MousePressed[2] = true;
+    if (e.button == SDL_BUTTON_LEFT)    io.MouseDown[0] = true;
+    if (e.button == SDL_BUTTON_MIDDLE)  io.MouseDown[1] = true;
+    if (e.button == SDL_BUTTON_RIGHT)   io.MouseDown[2] = true;
+}
+
+void ImGuiWrapper::onMouseReleasedEvent(const SDL_MouseButtonEvent& e, ImGuiIO& io) {
+    if (e.button == SDL_BUTTON_LEFT)    io.MouseDown[0] = false;
+    if (e.button == SDL_BUTTON_MIDDLE)  io.MouseDown[1] = false;
+    if (e.button == SDL_BUTTON_RIGHT)   io.MouseDown[2] = false;
+}
+
+void ImGuiWrapper::onMouseMovedEvent(const SDL_MouseMotionEvent& e, ImGuiIO& io) {
+    io.MousePos = ImVec2(static_cast<float>(e.x), static_cast<float>(e.y));
 }
 
 void ImGuiWrapper::onTextInputEvent(const SDL_TextInputEvent& e, ImGuiIO& io) {
@@ -131,21 +105,25 @@ void ImGuiWrapper::onTextInputEvent(const SDL_TextInputEvent& e, ImGuiIO& io) {
 }
 
 void ImGuiWrapper::onKeyDownEvent(const SDL_KeyboardEvent& e, ImGuiIO& io) {
-    int key = e.keysym.scancode;
-    IM_ASSERT(key >= 0 && key < IM_ARRAYSIZE(io.KeysDown));
-    io.KeysDown[key] = true;
-    io.KeyShift = ((SDL_GetModState() & KMOD_SHIFT) != 0);
-    io.KeyCtrl = ((SDL_GetModState() & KMOD_CTRL) != 0);
-    io.KeyAlt = ((SDL_GetModState() & KMOD_ALT) != 0);
-    io.KeySuper = ((SDL_GetModState() & KMOD_GUI) != 0);
+    io.KeysDown[e.keysym.scancode] = true;
+    
+    io.KeyCtrl = io.KeysDown[SDL_SCANCODE_LCTRL] || io.KeysDown[SDL_SCANCODE_RCTRL];
+    io.KeyShift = io.KeysDown[SDL_SCANCODE_LSHIFT] || io.KeysDown[SDL_SCANCODE_RSHIFT];
+    io.KeyAlt = io.KeysDown[SDL_SCANCODE_LALT] || io.KeysDown[SDL_SCANCODE_RALT];
+
+    // TODO: (Ian) Implement
+    io.KeySuper = false;
 }
 
 void ImGuiWrapper::onKeyUpEvent(const SDL_KeyboardEvent& e, ImGuiIO& io) {
-    int key = e.keysym.scancode;
-    IM_ASSERT(key >= 0 && key < IM_ARRAYSIZE(io.KeysDown));
-    io.KeysDown[key] = true;
-    io.KeyShift = ((SDL_GetModState() & KMOD_SHIFT) != 0);
-    io.KeyCtrl = ((SDL_GetModState() & KMOD_CTRL) != 0);
-    io.KeyAlt = ((SDL_GetModState() & KMOD_ALT) != 0);
-    io.KeySuper = ((SDL_GetModState() & KMOD_GUI) != 0);
+    io.KeysDown[e.keysym.scancode] = false;
+
+    io.KeyCtrl = io.KeysDown[SDL_SCANCODE_LCTRL] || io.KeysDown[SDL_SCANCODE_RCTRL];
+    io.KeyShift = io.KeysDown[SDL_SCANCODE_LSHIFT] || io.KeysDown[SDL_SCANCODE_RSHIFT];
+    io.KeyAlt = io.KeysDown[SDL_SCANCODE_LALT] || io.KeysDown[SDL_SCANCODE_RALT];
+}
+
+void ImGuiWrapper::onWindowResizedEvent(const SDL_WindowEvent& e, ImGuiIO& io) {
+    io.DisplaySize = ImVec2(static_cast<float>(e.data1), static_cast<float>(e.data2));
+    io.DisplayFramebufferScale = ImVec2(1.f, 1.f);
 }

@@ -1,5 +1,14 @@
+# IDE FOLDERS
 .vs/
 .vscode/
+
+# OUTPUT BINARIES
 bin/
+
+# CMAKE DIRECTORY
 build/
+
+# UTILITY SCRIPT FILES
 *.bat
+
+imgui.ini

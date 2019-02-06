@@ -3,7 +3,8 @@
 // Index orders for different shapes
 const unsigned int LINE_INDICES[2] = { 0, 1 };
 
-Renderer::Renderer() : default2d(VERTEX_2D_PATH, FRAG_PATH), default3d(VERTEX_3D_PATH, FRAG_PATH) {
+Renderer::Renderer() : default2d(nullptr), default3d(nullptr) {
+	// Do nothing here for now...
 }
 
 // TODO: (Ian) Temporary, remove(move) these functions
@@ -13,6 +14,11 @@ float lerp(float min, float max, float val) {
 
 void Renderer::clear() const {
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Renderer::setDefault(Shader* shader2d, Shader* shader3d) {
+	default2d = shader2d;
+	default3d = shader3d;
 }
 
 void Renderer::drawLine(int x1, int y1, int x2, int y2, const Shader * const shader) const {
@@ -26,7 +32,7 @@ void Renderer::drawLine(int x1, int y1, int x2, int y2, const Shader * const sha
 	va.addBuffer(vb, layout);
 
 	if(shader) 	drawLines(va, ib, *shader);
-	else 		drawLines(va, ib, default2d);
+	else 		drawLines(va, ib, *default2d);
 }
 
 void Renderer::drawTriangles(const VertexArray & va, const IndexBuffer & ib, const Shader & shader) const {

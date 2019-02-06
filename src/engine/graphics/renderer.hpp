@@ -2,8 +2,8 @@
 
 #include <GL/glew.h>
 
-#include "opengl/shader.hpp"
-#include "opengl/glwrappers.hpp"
+#include "platform/opengl/shader.hpp"
+#include "platform/opengl/glwrappers.hpp"
 
 #define DEFAULT_SHADER_2D	"default2d";
 #define DEFAULT_SHADER_3D	"default3d";
@@ -19,6 +19,7 @@ public:
 	Renderer();
 
 	void clear() const;
+	void setDefault(Shader* shader2d, Shader* shader3d);
 
 	// Easier to use draw functions
 	void drawLine(int x1, int y1, int x2, int y2, const Shader * const shader=nullptr) const;
@@ -31,6 +32,7 @@ public:
 private:
 	void draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader, GLenum type) const;
 
-	Shader default2d;
-	Shader default3d;
+	// Assume this is always valid -> use raw pointers for reference
+	Shader * default2d;
+	Shader * default3d;
 };

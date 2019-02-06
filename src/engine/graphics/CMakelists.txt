@@ -1,0 +1,2 @@
+targeT_sources(Game PRIVATE obj.cpp
+    renderer.cpp)

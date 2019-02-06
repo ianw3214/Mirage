@@ -1,4 +1,5 @@
 target_include_directories(Game PRIVATE vendor)
+target_include_directories(Game PRIVATE engine)
 
 add_subdirectory(engine)
 

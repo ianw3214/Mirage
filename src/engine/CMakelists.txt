@@ -1,12 +1,11 @@
 target_link_libraries(Game Opengl32.lib)
 
-add_subdirectory(opengl)
+add_subdirectory(graphics)
 add_subdirectory(utility)
 add_subdirectory(platform)
+add_subdirectory(ImGui)
 
 target_sources(Game PRIVATE 
     engine.cpp 
-    renderer.cpp 
-    obj.cpp
     resource.cpp
-    imgui_wrapper.cpp)
+    camera.cpp)

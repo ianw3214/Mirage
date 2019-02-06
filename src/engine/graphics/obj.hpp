@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "opengl/glwrappers.hpp"
+#include "platform/opengl/glwrappers.hpp"
 
 #include <sstream>
 namespace Util {

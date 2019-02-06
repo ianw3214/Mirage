@@ -4,42 +4,56 @@
 #include <SDL2/SDL_opengl.h>
 
 #include "resource.hpp"
-#include "renderer.hpp"
-#include "imgui_wrapper.hpp"
+#include "graphics/renderer.hpp"
+#include "ImGui/imgui_wrapper.hpp"
 
 // Includes for the sample state
-#include "opengl/shader.hpp"
-#include "obj.hpp"
-#include "glm/glm.hpp"
+#include "platform/opengl/shader.hpp"
+#include "graphics/obj.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-// glm::mat4 proj = glm::perspective(glm::radians(30.f), 1.f, 0.1f, 100.0f);
-glm::mat4 proj = glm::ortho(-10.f, 10.f, -10.f, 10.f, -1000.f, 1000.f);
-// View matrix construction
-glm::mat4 view = glm::lookAt(glm::vec3(20.f, 20.f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
-glm::mat4 model = glm::mat4(1.0f);
-
 void State::init() {
-    // Do nothing...
+    Engine::getResource()->loadShader("lighting", "res/shaders/default3d.vert", "res/shaders/lighting.frag");
+    // Temporary camera setting code
+    camera.setPosition(-1.f, 0.f, 0.f);
+    camera.setDirection(1.f, 0.f, 0.f);
+
 }
 void State::shutdown() {
     // Do nothing...
 }
+void State::onEvent(const SDL_Event& e) {
+    camera.onEvent(e);
+}
 void State::update() {
-    // Do nothing...
+    camera.update();
 }
 void State::render() {
+    // View matrix construction
+
+    glm::mat4 view = camera.getViewMatrix();
+    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 proj = glm::perspective(glm::radians(camera.getFov()), 500.f / 500.f, 0.1f, 100.f);
+
+    /*  LINE RENDERING
     ShaderRefPtr shader = Engine::getResource()->getShader("default2D");
     if (shader) {
         Engine::getRenderer()->drawLine(100, 100, 200, 200, shader.get());
     }
+    */
+
     static RawModel mod;
-    if (!mod.va) mod.loadModel("res/models/wedge.obj");
+    if (!mod.va) mod.loadModel("res/models/untitled.obj");
     // Model view projection matrix construction
 	glm::mat4 mvp = proj * view * model;
-    ShaderRefPtr shader3d = Engine::getResource()->getShader("default3D");
+    // ShaderRefPtr shader3d = Engine::getResource()->getShader("default3D");
+    ShaderRefPtr shader3d = Engine::getResource()->getShader("lighting");
     if (shader3d) {
         shader3d->setUniformMat4f("u_MVP", mvp);
+        shader3d->setUniform3f("lightColour", 1.f, 1.f, 1.f);
+        shader3d->setUniform3f("objectColour", 0.f, 0.f, 1.f);
+        shader3d->setUniform3f("lightPos", 3.f, 0.f, 0.f);
+        shader3d->setUniformMat4f("u_model", model);
         Engine::getRenderer()->drawTriangles(*(mod.va), *(mod.ib), *shader3d);
     }
 }
@@ -78,7 +92,19 @@ void Engine::init() {
 
     // Enable vsync
     SDL_GL_SetSwapInterval(1);
+    // Enable mouse trapping
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+    
+    // Wireframe mode
+    // TODO: (Ian) Set this as an option or some shit
+    // glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
+    // Initialize OpenGL properties
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glCullFace(GL_BACK);
+
+    // Initialize GLEW
     glewExperimental = GL_TRUE;
     GLenum glewError = glewInit();
     if (glewError != GLEW_OK) {
@@ -90,16 +116,16 @@ void Engine::init() {
     glClearColor(0.f, 0.f, 0.f, 1.f);
 
     // Allocate/initialize subsystems
-    s_renderer = new Renderer;
+    s_renderer = new Renderer();
     s_resourceManager = new ResourceManager;
     s_ImGui = new ImGuiWrapper;
 
-    // TODO: (Ian) Move this to init function of the resource manager
     // Load default resources
     ShaderRefPtr default_shader = Engine::getResource()->loadShader("default2D", VERTEX_2D_PATH, FRAG_PATH);
     default_shader->setUniform1i("u_screen_width", 500);
     default_shader->setUniform1i("u_screen_height", 500);
     ShaderRefPtr default_shader_3D = Engine::getResource()->loadShader("default3D", VERTEX_3D_PATH, FRAG_PATH);
+    s_renderer->setDefault(default_shader.get(), default_shader_3D.get());
 
 }
 void Engine::shutdown() {
@@ -121,7 +147,7 @@ void Engine::run() {
     while (running) {
 
         // Clear the screen colour
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // TODO: (Ian) Use custom event struct/class
         SDL_Event e;
@@ -135,6 +161,7 @@ void Engine::run() {
                 running = false;
             }
             // Call event handler of other shit
+            s_state->onEvent(e);
             s_ImGui->onEvent(e);
         }
 
