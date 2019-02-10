@@ -52,7 +52,7 @@ ImGuiWrapper::~ImGuiWrapper() {
 void ImGuiWrapper::render() {
     // TODO: (Ian) Fix these calculations
     ImGuiIO& io = ImGui::GetIO();
-    io.DisplaySize = ImVec2(500, 500);
+    io.DisplaySize = ImVec2(1280, 720);
     io.DeltaTime = 1.0f / 60.f;
 
     ImGui_ImplOpenGL3_NewFrame();

@@ -4,13 +4,16 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include "glm/glm.hpp"
 
 class ResourceManager;
 class Renderer;
 class ImGuiWrapper;
 
+// Includes for the sample state
+#include "glm/glm.hpp"
 #include "camera.hpp"
+#include <vector>
+#include "terrain.hpp"
 
 class State {
 public:
@@ -22,6 +25,7 @@ public:
     void render();
 private:
     Camera camera;
+    std::vector<Terrain> terrain;
 };
 
 class Engine {

@@ -44,11 +44,19 @@ public:
 	VertexBuffer * vb_nrm;
 	VertexBuffer * vb_tex;
 
-	RawModel() {}
+	RawModel() : va(nullptr), ib(nullptr) , vb_pos(nullptr), vb_nrm(nullptr), vb_tex(nullptr) {}
 	RawModel(const std::string& path) {
 		loadModel(path);
 	}
+	~RawModel();
 
+	void clear();
 	void loadModel(const std::string& path);
+	void fromArrays(const float * vertices, 
+		const float * normals, 
+		const float * texCoords, 
+		const unsigned int * indices,
+		unsigned int num_vertices,
+		unsigned int num_indices);
 
 };

@@ -6,7 +6,7 @@
 #define DEFAULT_CAMERA_SPEED    0.1f
 #define DEFAULT_YAW             0.0f
 #define DEFUALT_PITCH           0.0f
-#define DEFAULT_FOV             10.f
+#define DEFAULT_FOV             30.f
 
 enum class CameraDirection {
     FRONT,
@@ -49,6 +49,7 @@ private:
 
     float m_cameraSpeed;
     float m_yaw, m_pitch;
+    // TODO: (Ian) Move FOV out of camera class
     float m_fov;
 
     bool m_defaultMovement;

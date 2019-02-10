@@ -1,2 +1,2 @@
-targeT_sources(Game PRIVATE obj.cpp
-    renderer.cpp)
+targeT_sources(Game PRIVATE renderer.cpp
+    rawModel.cpp)

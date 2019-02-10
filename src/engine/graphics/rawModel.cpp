@@ -1,6 +1,14 @@
-#include "obj.hpp"
+#include "rawModel.hpp"
 
 #include <fstream>
+
+RawModel::~RawModel() {
+	if(va) delete va;
+	if(ib) delete ib;
+	if(vb_pos) delete vb_pos;
+	if(vb_nrm) delete vb_nrm;
+	if(vb_tex) delete vb_tex;
+}
 
 void processVertex(
 	const std::vector<std::string> vertex, 
@@ -23,6 +31,14 @@ void processVertex(
 		normalsArray[currPointer * 3 + 1] = currNorm.y;
 		normalsArray[currPointer * 3 + 2] = currNorm.z;
 	}
+}
+
+void RawModel::clear() {
+	if (va) delete va;
+	if (ib) delete ib;
+	if (vb_pos) delete vb_pos;
+	if (vb_nrm) delete vb_nrm;
+	if (vb_tex) delete vb_tex;
 }
 
 void RawModel::loadModel(const std::string& path) {
@@ -92,14 +108,44 @@ void RawModel::loadModel(const std::string& path) {
 		va->addBuffer(*vb_pos, vb_pos_layout, 0);
 	}
 	{	// SETUP VERTEX NORMALS BUFFER
-		vb_nrm = new VertexBuffer(verticesArray, sizeof(float) * vertices.size() * 3);
+		vb_nrm = new VertexBuffer(normalsArray, sizeof(float) * vertices.size() * 3);
 		VertexBufferLayout vb_nrm_layout;
 		vb_nrm_layout.push_float(3);
 		va->addBuffer(*vb_nrm, vb_nrm_layout, 1);
 	}
 	if (texturesFound)
 	{	// SETUP VERTEX TEXTURES BUFFER
-		vb_tex = new VertexBuffer(verticesArray, sizeof(float) * vertices.size() * 2);
+		vb_tex = new VertexBuffer(textureArray, sizeof(float) * vertices.size() * 2);
+		VertexBufferLayout vb_tex_layout;
+		vb_tex_layout.push_float(2);
+		va->addBuffer(*vb_tex, vb_tex_layout, 2);
+	}
+}
+
+void RawModel::fromArrays(const float * vertices, 
+	const float * normals, 
+	const float * texCoords, 
+	const unsigned int * indices,
+	unsigned int num_vertices,
+	unsigned int num_indices) 
+{
+	clear();
+	va = new VertexArray();
+	ib = new IndexBuffer(&(indices[0]), num_indices);
+	{	// SETUP VERTEX POSITIONS BUFFER
+		vb_pos = new VertexBuffer(vertices, sizeof(float) * num_vertices * 3);
+		VertexBufferLayout vb_pos_layout;
+		vb_pos_layout.push_float(3);
+		va->addBuffer(*vb_pos, vb_pos_layout, 0);
+	}
+	{	// SETUP VERTEX NORMALS BUFFER
+		vb_nrm = new VertexBuffer(normals, sizeof(float) * num_vertices * 3);
+		VertexBufferLayout vb_nrm_layout;
+		vb_nrm_layout.push_float(3);
+		va->addBuffer(*vb_nrm, vb_nrm_layout, 1);
+	}
+	{	// SETUP VERTEX TEXTURES BUFFER
+		vb_tex = new VertexBuffer(texCoords, sizeof(float) * num_vertices * 2);
 		VertexBufferLayout vb_tex_layout;
 		vb_tex_layout.push_float(2);
 		va->addBuffer(*vb_tex, vb_tex_layout, 2);

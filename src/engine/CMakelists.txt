@@ -8,4 +8,5 @@ add_subdirectory(ImGui)
 target_sources(Game PRIVATE 
     engine.cpp 
     resource.cpp
-    camera.cpp)
+    camera.cpp
+    terrain.cpp)

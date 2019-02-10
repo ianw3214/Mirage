@@ -9,15 +9,25 @@
 
 // Includes for the sample state
 #include "platform/opengl/shader.hpp"
-#include "graphics/obj.hpp"
+#include "platform/openGL/glwrappers.hpp"
+#include "graphics/rawModel.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-void State::init() {
-    Engine::getResource()->loadShader("lighting", "res/shaders/default3d.vert", "res/shaders/lighting.frag");
-    // Temporary camera setting code
-    camera.setPosition(-1.f, 0.f, 0.f);
-    camera.setDirection(1.f, 0.f, 0.f);
+// Textures
+Texture * texture;
 
+void State::init() {
+    Engine::getResource()->loadShader("lighting", "res/shaders/default3d.vert", "res/shaders/lighting_texture.frag");
+    // Temporary camera setting code
+    camera.setPosition(0.f, 1.f, 0.f);
+    camera.setDirection(1.f, 0.f, 0.f);
+    // Initialize terrain shit
+    terrain.reserve(4);
+    terrain.emplace_back(0.f, 0.f);
+    terrain.emplace_back(-1.f, 0.f);
+    terrain.emplace_back(0.f, -1.f);
+    terrain.emplace_back(-1.f, -1.f);
+    texture = new Texture("res/textures/grass.png");
 }
 void State::shutdown() {
     // Do nothing...
@@ -33,7 +43,7 @@ void State::render() {
 
     glm::mat4 view = camera.getViewMatrix();
     glm::mat4 model = glm::mat4(1.0f);
-    glm::mat4 proj = glm::perspective(glm::radians(camera.getFov()), 500.f / 500.f, 0.1f, 100.f);
+    glm::mat4 proj = glm::perspective(glm::radians(camera.getFov()), 1280.f / 720.f, 0.1f, 1000.f);
 
     /*  LINE RENDERING
     ShaderRefPtr shader = Engine::getResource()->getShader("default2D");
@@ -42,6 +52,7 @@ void State::render() {
     }
     */
 
+   /*
     static RawModel mod;
     if (!mod.va) mod.loadModel("res/models/untitled.obj");
     // Model view projection matrix construction
@@ -55,6 +66,27 @@ void State::render() {
         shader3d->setUniform3f("lightPos", 3.f, 0.f, 0.f);
         shader3d->setUniformMat4f("u_model", model);
         Engine::getRenderer()->drawTriangles(*(mod.va), *(mod.ib), *shader3d);
+    }
+    */
+
+    // Model view projection matrix construction
+    glm::mat4 mvp = proj * view * model;
+    // ShaderRefPtr shader3d = Engine::getResource()->getShader("default3D");
+    ShaderRefPtr shader3d = Engine::getResource()->getShader("lighting");
+    if (shader3d) {
+        texture->bind();
+        // Set textures to repeat
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        shader3d->setUniformMat4f("u_MVP", mvp);
+        shader3d->setUniform3f("lightColour", 1.f, 1.f, 1.f);
+        shader3d->setUniform3f("objectColour", 0.f, 0.f, 1.f);
+        shader3d->setUniform3f("lightPos", 3.f, 1.f, 0.f);
+        shader3d->setUniformMat4f("u_model", model);
+        for (const Terrain& t : terrain) {
+            Engine::getRenderer()->drawTriangles(*(t.getModel().va), *(t.getModel().ib), *shader3d);
+        }
+        texture->unbind();
     }
 }
 
@@ -79,7 +111,7 @@ void Engine::init() {
 
     // Create SDL window
     // TODO: (Ian) Load in properties from a config file
-    s_window = SDL_CreateWindow("GAME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 500, 500, SDL_WINDOW_OPENGL);
+    s_window = SDL_CreateWindow("GAME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_OPENGL);
     if (s_window == NULL) {
         exit(1);
     }
