@@ -13,13 +13,21 @@ RawModel::~RawModel() {
 void processVertex(
 	const std::vector<std::string> vertex, 
 	std::vector<unsigned int>& indices,
+	const std::vector<Vec3> vertices,
 	const std::vector<Vec2> textures, 
 	const std::vector<Vec3> normals, 
+	float verticesArray[],
 	float textureArray[], 
 	float normalsArray[]) 
 {
 	int currPointer = std::stoi(vertex[0]) - 1;
 	indices.push_back(currPointer);
+	if (vertex[0].size() > 0) {
+		Vec3 currPos = vertices[std::stoi(vertex[0]) - 1];
+		verticesArray[currPointer * 3 + 0] = currPos.x;
+		verticesArray[currPointer * 3 + 1] = currPos.y;
+		verticesArray[currPointer * 3 + 2] = currPos.z;
+	}
 	if (vertex[1].size() > 0) {
 		Vec2 currTex = textures[std::stoi(vertex[1]) - 1];
 		textureArray[currPointer * 2 + 0] = currTex.x;
@@ -78,26 +86,28 @@ void RawModel::loadModel(const std::string& path) {
 		if (tokens[0] == "f") {			// FACE
 			if (!verticesArray || !textureArray || !normalsArray) {
 				verticesArray = new float[vertices.size() * 3];
-				normalsArray = new float[vertices.size() * 3];
+				normalsArray  = new float[vertices.size() * 3];
 				textureArray  = new float[vertices.size() * 2];
 			}
 			std::vector<std::string> vertex1 = Util::split(tokens[1], '/');
 			std::vector<std::string> vertex2 = Util::split(tokens[2], '/');
 			std::vector<std::string> vertex3 = Util::split(tokens[3], '/');
 
-			processVertex(vertex1, indices, textures, normals, textureArray, normalsArray);
-			processVertex(vertex2, indices, textures, normals, textureArray, normalsArray);
-			processVertex(vertex3, indices, textures, normals, textureArray, normalsArray);
+			processVertex(vertex1, indices, vertices, textures, normals, verticesArray, textureArray, normalsArray);
+			processVertex(vertex2, indices, vertices, textures, normals, verticesArray, textureArray, normalsArray);
+			processVertex(vertex3, indices, vertices, textures, normals, verticesArray, textureArray, normalsArray);
 		}
 	}
 
 	unsigned int * indicesArray = indices.data();
 	int indexPtr = 0;
+	/*
 	for (Vec3 vertex : vertices) {
 		verticesArray[indexPtr++] = vertex.x;
 		verticesArray[indexPtr++] = vertex.y;
 		verticesArray[indexPtr++] = vertex.z;
 	}
+	*/
 
 	va = new VertexArray();
 	ib = new IndexBuffer(&(indices[0]), indices.size());

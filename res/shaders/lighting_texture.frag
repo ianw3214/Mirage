@@ -5,15 +5,16 @@ in vec3 vNormal;
 in vec2 vTexCoord;
 out vec4 colour;
 
-uniform vec3 lightColour;
-uniform vec3 objectColour;
-uniform vec3 lightPos;
+uniform vec3 sunColour;
+uniform vec3 sunDir;
 
 uniform sampler2D u_Texture;
 
 void main() {
-    // Ambient lighting
     float ambientStrength = 0.5;
+
+    /*
+    // Ambient lighting
     vec3 ambient = ambientStrength * lightColour;
 
     // Diffuse lighting
@@ -21,8 +22,14 @@ void main() {
     vec3 lightDir = normalize(lightPos - vPos);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = diff * lightColour;
+    */
+
+    // Sun shit
+    vec3 sun_ambient = ambientStrength * sunColour;
+    vec3 sun_diffuse = max(dot(normalize(vNormal), -1.f * sunDir), 0.0) * sunColour;
 
     // Calculate the result
     vec4 textureColour = texture(u_Texture, vTexCoord);
-    colour = vec4(ambient + diffuse, 1.0) * textureColour;
+    // colour = vec4(sun_ambient + sun_diffuse, 1.0) * vec4(ambient + diffuse, 1.0) * textureColour;
+    colour = vec4(sun_ambient + sun_diffuse, 1.0) * textureColour;
 }

@@ -16,6 +16,10 @@ void Renderer::clear() const {
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
+void Renderer::setClearColour(float r, float g, float b, float a) const{
+	glClearColor(r, g, b, a);
+}
+
 void Renderer::setDefault(Shader* shader2d, Shader* shader3d) {
 	default2d = shader2d;
 	default3d = shader3d;

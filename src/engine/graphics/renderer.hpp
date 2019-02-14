@@ -19,6 +19,7 @@ public:
 	Renderer();
 
 	void clear() const;
+	void setClearColour(float r=0.f, float g=0.f, float b=0.f, float a=1.f) const;
 	void setDefault(Shader* shader2d, Shader* shader3d);
 
 	// Easier to use draw functions

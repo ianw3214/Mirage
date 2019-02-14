@@ -18,7 +18,7 @@ class ImGuiWrapper;
 class State {
 public:
     void init();
-    void shutdown();
+    void shutdown(); 
     
     void onEvent(const SDL_Event& e);
     void update();
@@ -26,6 +26,9 @@ public:
 private:
     Camera camera;
     std::vector<Terrain> terrain;
+
+    // temporary player model
+    RawModel player;
 };
 
 class Engine {

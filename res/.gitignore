@@ -1,1 +1,5 @@
 models/
+
+# BELDER FILES
+*.blend
+*.mtl

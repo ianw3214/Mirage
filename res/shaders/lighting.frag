@@ -2,24 +2,22 @@
 
 in vec3 vPos;
 in vec3 vNormal;
+in vec2 vTexCoord;
 out vec4 colour;
 
-uniform vec3 lightColour;
 uniform vec3 objectColour;
-uniform vec3 lightPos;
+
+uniform vec3 sunColour;
+uniform vec3 sunDir;
 
 void main() {
-    // Ambient lighting
     float ambientStrength = 0.5;
-    vec3 ambient = ambientStrength * lightColour;
 
-    // Diffuse lighting
-    vec3 norm = normalize(vNormal);
-    vec3 lightDir = normalize(lightPos - vPos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * lightColour;
+    // Sun shit
+    vec3 sun_ambient = ambientStrength * sunColour;
+    vec3 sun_diffuse = max(dot(normalize(vNormal), -1.f * sunDir), 0.0) * sunColour;
 
     // Calculate the result
-    vec3 result = (ambient + diffuse) * objectColour;
-    colour = vec4(result, 1.0);
+    colour = vec4(sun_ambient + sun_diffuse, 1.0) * vec4(objectColour, 1.f);
+    // colour = vec4(vNormal, 1.f);
 }

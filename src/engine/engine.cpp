@@ -17,10 +17,21 @@
 Texture * texture;
 
 void State::init() {
-    Engine::getResource()->loadShader("lighting", "res/shaders/default3d.vert", "res/shaders/lighting_texture.frag");
+    // Initialize the lighitng shader
+    Engine::getRenderer()->setClearColour(.7f, .7f, .9f);
+    ShaderRefPtr mainShader = Engine::getResource()->loadShader("lighting", "res/shaders/default3d.vert", "res/shaders/lighting_texture.frag");
+    mainShader->setUniform3f("sunColour", .8f, .7f, .5f);
+    mainShader->setUniform3f("sunDir", 0.f, -1.f, 0.f);
+    ShaderRefPtr lightShader = Engine::getResource()->loadShader("lighting2", "res/shaders/default3d.vert", "res/shaders/lighting.frag");
+    lightShader->setUniform3f("sunColour", .8f, .7f, .5f);
+    lightShader->setUniform3f("sunDir", 0.f, -1.f, 0.f);
+    lightShader->setUniform3f("objectColour", 1.f, 0.f, 0.f);
+
     // Temporary camera setting code
     camera.setPosition(0.f, 1.f, 0.f);
     camera.setDirection(1.f, 0.f, 0.f);
+    // camera.setDefaultMovement(false);
+
     // Initialize terrain shit
     terrain.reserve(4);
     terrain.emplace_back(0.f, 0.f);
@@ -28,6 +39,9 @@ void State::init() {
     terrain.emplace_back(0.f, -1.f);
     terrain.emplace_back(-1.f, -1.f);
     texture = new Texture("res/textures/grass.png");
+
+    // Temporary player initialization code
+    player.loadModel("res/player.obj");
 }
 void State::shutdown() {
     // Do nothing...
@@ -39,10 +53,8 @@ void State::update() {
     camera.update();
 }
 void State::render() {
-    // View matrix construction
 
     glm::mat4 view = camera.getViewMatrix();
-    glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 proj = glm::perspective(glm::radians(camera.getFov()), 1280.f / 720.f, 0.1f, 1000.f);
 
     /*  LINE RENDERING
@@ -52,41 +64,41 @@ void State::render() {
     }
     */
 
-   /*
-    static RawModel mod;
-    if (!mod.va) mod.loadModel("res/models/untitled.obj");
     // Model view projection matrix construction
-	glm::mat4 mvp = proj * view * model;
-    // ShaderRefPtr shader3d = Engine::getResource()->getShader("default3D");
     ShaderRefPtr shader3d = Engine::getResource()->getShader("lighting");
     if (shader3d) {
-        shader3d->setUniformMat4f("u_MVP", mvp);
-        shader3d->setUniform3f("lightColour", 1.f, 1.f, 1.f);
-        shader3d->setUniform3f("objectColour", 0.f, 0.f, 1.f);
-        shader3d->setUniform3f("lightPos", 3.f, 0.f, 0.f);
-        shader3d->setUniformMat4f("u_model", model);
-        Engine::getRenderer()->drawTriangles(*(mod.va), *(mod.ib), *shader3d);
-    }
-    */
-
-    // Model view projection matrix construction
-    glm::mat4 mvp = proj * view * model;
-    // ShaderRefPtr shader3d = Engine::getResource()->getShader("default3D");
-    ShaderRefPtr shader3d = Engine::getResource()->getShader("lighting");
-    if (shader3d) {
+        glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 mvp = proj * view * model;
         texture->bind();
         // Set textures to repeat
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         shader3d->setUniformMat4f("u_MVP", mvp);
+        /*
         shader3d->setUniform3f("lightColour", 1.f, 1.f, 1.f);
         shader3d->setUniform3f("objectColour", 0.f, 0.f, 1.f);
         shader3d->setUniform3f("lightPos", 3.f, 1.f, 0.f);
+        */
         shader3d->setUniformMat4f("u_model", model);
+        // Render the terrain
         for (const Terrain& t : terrain) {
             Engine::getRenderer()->drawTriangles(*(t.getModel().va), *(t.getModel().ib), *shader3d);
         }
         texture->unbind();
+    }
+    // Render the player
+    ShaderRefPtr shader3d2 = Engine::getResource()->getShader("lighting2");
+    if (shader3d2) {
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(1.f, 2.f, 1.f));
+        glm::mat4 mvp = proj * view * model;
+        shader3d2->setUniformMat4f("u_MVP", mvp);
+        /*
+        shader3d2->setUniform3f("lightColour", 0.f, 0.f, 0.f);
+        shader3d2->setUniform3f("objectColour", 0.f, 0.f, 1.f);
+        shader3d2->setUniform3f("lightPos", 3.f, 1.f, 0.f);
+        */
+        shader3d2->setUniformMat4f("u_model", model);
+        Engine::getRenderer()->drawTriangles(*(player.va), *(player.ib), *shader3d2);
     }
 }
 
