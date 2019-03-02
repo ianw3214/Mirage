@@ -1,6 +1,0 @@
-target_include_directories(Game PRIVATE vendor)
-target_include_directories(Game PRIVATE engine)
-
-add_subdirectory(engine)
-
-target_sources(Game PRIVATE main.cpp)

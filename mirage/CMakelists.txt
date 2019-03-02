@@ -1,0 +1,3 @@
+target_include_directories(Game PRIVATE src)
+
+add_subdirectory(src)

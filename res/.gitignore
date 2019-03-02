@@ -1,8 +1,0 @@
-models/
-
-# BELDER FILES
-*.blend
-*.mtl
-
-# IGNORE OBJ FILES FOR NOW
-*.obj

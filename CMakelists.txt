@@ -1,18 +1,24 @@
 cmake_minimum_required(VERSION 3.13.0 FATAL_ERROR)
-# Configure a header file to pass some of the cmake set
-project(Game)
-# The version number
-set (Game_VERSION_MAJOR 1)
-set (Game_VERSION_MINOR 0)
 
+project(Mirage)
+
+set(Mirage_VERSION_MAJOR 1)
+set(Mirage_VERSION_MINOR 0)
+
+add_library(Engine SHARED)
 add_executable(Game)
-target_compile_definitions(Game PRIVATE IMGUI_IMPL_OPENGL_LOADER_GLEW)
 
-add_subdirectory(src)
+target_link_libraries(Game Engine)
 
-source_group("Header files" FILES ${headers})
-source_group("Source files" FILES ${sources})
-
+target_compile_definitions(Engine PRIVATE BUID_DLL)
+# PLATFORM DEFINITIONS AND SETTINGS
 if(WIN32)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:Console")
+target_compile_definitions(Engine PRIVATE PLATFORM_WINDOWS)
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
+target_compile_definitions(Game PRIVATE PLATFORM_WINDOWS)
 endif()
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Game)
+
+add_subdirectory(mirage)
+add_subdirectory(sandbox)
