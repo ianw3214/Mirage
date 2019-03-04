@@ -2,10 +2,10 @@
 
 #ifdef PLATFORM_WINDOWS
     #ifdef BUID_DLL
-        #define API __declspec(dllexport)
+        #define MIRAGE_API __declspec(dllexport)
     #else
-        #define API __declspec(dllimport)
+        #define MIRAGE_API __declspec(dllimport)
     #endif
 #else
-    #define API
+    #define MIRAGE_API
 #endif

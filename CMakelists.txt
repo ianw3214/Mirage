@@ -5,15 +5,16 @@ project(Mirage)
 set(Mirage_VERSION_MAJOR 1)
 set(Mirage_VERSION_MINOR 0)
 
-add_library(Engine SHARED)
+add_library(Mirage SHARED)
 add_executable(Game)
 
-target_link_libraries(Game Engine)
+target_link_libraries(Game Mirage)
+target_include_directories(Game PRIVATE mirage/src)
 
-target_compile_definitions(Engine PRIVATE BUID_DLL)
+target_compile_definitions(Mirage PRIVATE BUID_DLL)
 # PLATFORM DEFINITIONS AND SETTINGS
 if(WIN32)
-target_compile_definitions(Engine PRIVATE PLATFORM_WINDOWS)
+target_compile_definitions(Mirage PRIVATE PLATFORM_WINDOWS)
 # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
 target_compile_definitions(Game PRIVATE PLATFORM_WINDOWS)
 endif()

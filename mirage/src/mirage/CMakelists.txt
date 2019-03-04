@@ -1,7 +1,10 @@
-target_sources(Engine PRIVATE
+target_sources(Mirage PRIVATE
     application.hpp
     core.hpp
-    entry.hpp)
+    entry.hpp
+    window.hpp)
 
-target_sources(Engine PRIVATE
+target_sources(Mirage PRIVATE
     application.cpp)
+
+add_subdirectory(events)
