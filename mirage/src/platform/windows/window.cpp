@@ -45,5 +45,18 @@ void Window::Update(Input * input) {
         if (e.type == SDL_WINDOWEVENT_CLOSE || e.type == SDL_QUIT) {
             input->windowClosed = true;
         }
+        if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
+            input->leftMouseClicked = true;
+        }
+        if (e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
+            input->leftMouseReleased = true;
+        }
+        if (e.type == SDL_KEYDOWN) {
+            input->pressedKeys.push_back(e.key.keysym.scancode);
+        }
+        if (e.type == SDL_KEYUP) {
+            input->releasedKeys.push_back(e.key.keysym.scancode);
+        }
     }
+    SDL_GetMouseState(&(input->mouseX), &(input->mouseY));
 }
