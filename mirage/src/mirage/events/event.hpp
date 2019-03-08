@@ -1,42 +1,24 @@
 #pragma once
 
-#include <vector>
+#include "mirage/core.hpp"
 
-struct Input {
-    // Window events
-    bool windowClosed;
+namespace Mirage{
+    class MIRAGE_API Input {
+    public:
+        Input();
+        ~Input();
+        void Update();
 
-    // Mouse events
-    int mouseX;
-    int mouseY;
-    bool leftMouseClicked;
-    bool leftMouseReleased;
+        // Window events
+        inline bool WindowClosed();
 
-    // Key events
-    std::vector<int> pressedKeys;
-    std::vector<int> releasedKeys;
+        // Mouse events
+        inline bool LeftMouseClicked();
+        inline bool LeftMouseReleased();
 
-    // Clearing inputs
-    Input() : 
-        windowClosed(false), 
-        mouseX(0), 
-        mouseY(0), 
-        leftMouseClicked(false),
-        leftMouseReleased(false) 
-    {
-        pressedKeys.reserve(10);
-        releasedKeys.reserve(10);
-    }
-    void clear() {
-        windowClosed = false;
-        mouseX = 0;
-        mouseY = 0;
-        leftMouseClicked = false;
-        leftMouseReleased = false;
-        pressedKeys.clear();
-        releasedKeys.clear();
-    }
-
-    // Utility functions - to be implemented by platform
-    bool KeyPressed(int key) const;
-};
+    private:
+        // TODO: (Ian) Use smart pointer
+        struct Impl;
+        Impl * impl;
+    };
+}

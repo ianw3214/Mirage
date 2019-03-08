@@ -2,9 +2,12 @@ target_sources(Mirage PRIVATE
     application.hpp
     core.hpp
     entry.hpp
-    window.hpp)
+    window.hpp
+    state.hpp
+    stateManager.hpp)
 
 target_sources(Mirage PRIVATE
-    application.cpp)
+    application.cpp
+    stateManager.cpp)
 
 add_subdirectory(events)

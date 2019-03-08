@@ -9,6 +9,7 @@ namespace Mirage {
     class MIRAGE_API Application {
     public:
         Application();
+        Application(const WindowConfig& config);
         virtual ~Application();
 
         void Run();

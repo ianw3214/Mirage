@@ -32,7 +32,7 @@ namespace Mirage {
 
         void Create(const WindowConfig& config = WindowConfig());
 
-        void Update(Input * input);
+        void Update();
     private:
         struct Impl;
         Impl * impl;

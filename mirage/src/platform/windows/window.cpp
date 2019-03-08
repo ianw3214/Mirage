@@ -38,7 +38,8 @@ void Window::Create(const WindowConfig& config) {
         SDL_WINDOW_SHOWN);
 }
 
-void Window::Update(Input * input) {
+void Window::Update() {
+    /*
     // Poll events on the update
     SDL_Event e;
     while(SDL_PollEvent(&e)) {
@@ -59,4 +60,5 @@ void Window::Update(Input * input) {
         }
     }
     SDL_GetMouseState(&(input->mouseX), &(input->mouseY));
+    */
 }
