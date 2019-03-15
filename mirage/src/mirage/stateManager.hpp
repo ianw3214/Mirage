@@ -12,10 +12,13 @@ namespace Mirage{
 
         void PushState(State * state);
         void PushOverlay(State * state);
+        void PopState();
         void PopState(State * state);
         void PopOverlay(State * state);
 
         void ChangeState(State * state);
+
+        void Update();
     private:
         // TODO: (Ian) Use smart pointer here
         struct Impl;

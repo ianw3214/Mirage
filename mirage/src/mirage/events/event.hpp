@@ -16,6 +16,9 @@ namespace Mirage{
         inline bool LeftMouseClicked();
         inline bool LeftMouseReleased();
 
+        // Key events
+        inline bool KeyPressed(int keycode);
+
     private:
         // TODO: (Ian) Use smart pointer
         struct Impl;

@@ -6,3 +6,6 @@
 #include "mirage/entry.hpp"
 
 #include "mirage/application.hpp"
+#include "mirage/state.hpp"
+
+#include "mirage/keycodes.hpp"

@@ -54,3 +54,8 @@ bool Mirage::Input::LeftMouseClicked() {
 bool Mirage::Input::LeftMouseReleased() {
     return impl->leftMouseReleased;
 }
+
+bool Mirage::Input::KeyPressed(int keycode) {
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    return state[keycode];   
+}

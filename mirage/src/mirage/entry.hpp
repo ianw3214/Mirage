@@ -2,6 +2,8 @@
 
 #include "application.hpp"
 
+#include <stdexcept>
+
 #ifdef PLATFORM_WINDOWS
 #include <Windows.h>
 extern Mirage::Application * Mirage::createApplication();

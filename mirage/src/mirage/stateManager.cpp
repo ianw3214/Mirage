@@ -19,11 +19,22 @@ Mirage::StateManager::~StateManager() {
 }
 
 void Mirage::StateManager::PushState(State * state) {
+    state->Init();
     impl->state_insert = impl->states.emplace(impl->state_insert, state);
 }
 
 void Mirage::StateManager::PushOverlay(State * state) {
+    state->Init();
     impl->states.emplace_back(state);
+}
+
+void Mirage::StateManager::PopState() {
+    if (impl->state_insert != impl->states.begin()) {
+        // Call SHUTDOWN of state here as well
+        delete *(impl->state_insert);
+        impl->states.erase(impl->state_insert);
+        impl->state_insert--;
+    }
 }
 
 void Mirage::StateManager::PopState(State * state) {
@@ -50,4 +61,10 @@ void Mirage::StateManager::ChangeState(State * state) {
     }
     impl->states.clear();
     impl->states.push_back(state);
+}
+
+void Mirage::StateManager::Update() {
+    for (State * state : impl->states) {
+        state->Update();
+    }
 }
