@@ -8,6 +8,8 @@ set(Mirage_VERSION_MINOR 0)
 add_library(Mirage SHARED)
 add_executable(Game)
 
+target_link_libraries(Mirage Opengl32.lib)
+
 target_link_libraries(Game Mirage)
 target_include_directories(Game PRIVATE mirage/src)
 

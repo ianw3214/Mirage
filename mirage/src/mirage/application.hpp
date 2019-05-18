@@ -26,6 +26,11 @@ namespace Mirage {
         virtual void WindowCloseCallback() {}
     private:
         void WindowClose();
+
+        // RENDERING STUFF
+        unsigned int m_vertexArray;
+        unsigned int m_vertexBuffer;
+        unsigned int m_indexBuffer;
     };
 
     Application * createApplication();
