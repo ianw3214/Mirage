@@ -1,3 +1,4 @@
 target_include_directories(Mirage PRIVATE src)
+target_include_directories(Mirage PRIVATE vendor)
 
 add_subdirectory(src)
