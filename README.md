@@ -3,7 +3,6 @@
 ## ENGINE TASKS
 
 - [x] Setup renderer
-- [ ] Separate rendering context from window
 - [ ] Refactor subsystems - make architecture more consistent
   - [ ] Experiment with using polymorphism
 - [ ] Misc. utilities
@@ -15,3 +14,11 @@
 ## GAME TASKS
 
 - [ ] Terrain setup
+
+## ART TASKS
+
+- [ ] Concept explorations
+
+## GENERAL TASKS
+
+- [ ] General game design
