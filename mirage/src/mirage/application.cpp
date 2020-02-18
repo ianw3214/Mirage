@@ -19,6 +19,7 @@ Application::Application(const WindowConfig& config) {
 
     m_states = new StateManager();
 
+    m_renderer = new Renderer();
     m_input = new Input();
 
     // RENDERING STUFF
@@ -53,6 +54,8 @@ Application::~Application() {
 
 void Application::Run() {
     while(m_running) {
+        m_renderer->Clear(0.f, 0.f, 0.f);
+
         m_window->Update();
         m_input->Update();
 

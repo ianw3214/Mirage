@@ -3,6 +3,7 @@
 #include "core.hpp"
 #include "window.hpp"
 #include "stateManager.hpp"
+#include "renderer.hpp"
 #include "events/event.hpp"
 
 namespace Mirage {
@@ -20,6 +21,7 @@ namespace Mirage {
         // TODO: (Ian) Use a smart pointer
         Window * m_window;
         StateManager * m_states;
+        Renderer * m_renderer;
         Input * m_input;
 
         // Allow applications to inject their own window close behaviour

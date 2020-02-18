@@ -13,3 +13,5 @@ target_sources(Mirage PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/vertexArray.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/vertexBuffer.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/vertexBufferLayout.hpp)
+
+target_sources(Mirage PRIVATE renderer.cpp)
