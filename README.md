@@ -11,8 +11,8 @@
   - [ ] Profiling/Performance
 - [x] Model loading
   - [ ] Proper rendering w/ transforms
-- [ ] Specify initial state (Reference Oasis game engine?)
-  - [ ] Remove polymorphism from Application class?
+- [x] Specify initial state (Reference Oasis game engine?)
+  - [x] Remove polymorphism from Application class?
 - [ ] Fix cross-DLL problem w/ models
 
 ## GAME TASKS

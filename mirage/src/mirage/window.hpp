@@ -6,6 +6,7 @@
 #include "core.hpp"
 
 #include <string>
+#include <functional>
 
 namespace Mirage {
     class State;
@@ -14,13 +15,12 @@ namespace Mirage {
         std::string name;
         unsigned int width;
         unsigned int height;
-        State * initialState;
+        std::function<Mirage::State*()> initialState;
 
         WindowConfig(const std::string& name = "MIRAGE",
             unsigned int width = 500,
-            unsigned int height = 500,
-            State * initialState = nullptr)
-            : name(name), width(width), height(height), initialState(initialState)
+            unsigned int height = 500)
+            : name(name), width(width), height(height)
         {
 
         } 

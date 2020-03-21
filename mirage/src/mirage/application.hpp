@@ -12,7 +12,7 @@ namespace Mirage {
     public:
         Application();
         Application(const WindowConfig& config);
-        virtual ~Application();
+        ~Application();
 
         void Run();
     protected:
@@ -24,12 +24,10 @@ namespace Mirage {
         Renderer * m_renderer;
         Input * m_input;
 
-        // Allow applications to inject their own window close behaviour
-        virtual void WindowCloseCallback() {}
     private:
         void WindowClose();
 
     };
 
-    Application * createApplication();
+    WindowConfig GetConfiguration();
 }

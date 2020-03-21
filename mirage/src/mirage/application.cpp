@@ -22,7 +22,7 @@ Application::Application(const WindowConfig& config) {
     m_renderer = new Renderer();
     m_input = new Input();
 
-    m_states->PushState(config.initialState);
+    m_states->PushState(config.initialState());
 }
 
 Application::~Application() {
@@ -48,6 +48,5 @@ void Application::Run() {
 }
 
 void Application::WindowClose() {
-    WindowCloseCallback();
     m_running = false;
 }

@@ -24,15 +24,9 @@ private:
     OBJLoader loader;
 };
 
-const Mirage::WindowConfig config = { "SANDBOX", 1280, 720, new SandboxState() };
-
-class Sandbox : public Mirage::Application {
-public:
-    Sandbox() : Application(config) {}
-    ~Sandbox() {}
-private:
-};
-
-Mirage::Application * Mirage::createApplication() {
-    return new Sandbox();
+Mirage::WindowConfig Mirage::GetConfiguration()
+{
+    WindowConfig config("SANDBOX", 1280, 720);
+    config.initialState = []() -> Mirage::State* { return new SandboxState(); };
+    return config;
 }
