@@ -7,19 +7,20 @@
 
 #include <string>
 
-struct Input;
-
 namespace Mirage {
+    class State;
 
     struct WindowConfig {
         std::string name;
         unsigned int width;
         unsigned int height;
+        State * initialState;
 
         WindowConfig(const std::string& name = "MIRAGE",
             unsigned int width = 500,
-            unsigned int height = 500)
-            : name(name), width(width), height(height)
+            unsigned int height = 500,
+            State * initialState = nullptr)
+            : name(name), width(width), height(height), initialState(initialState)
         {
 
         } 

@@ -8,13 +8,13 @@ VertexArray::~VertexArray() {
 	glDeleteVertexArrays(1, &arrayID);
 }
 
-void VertexArray::addBuffer(const VertexBuffer & vb, const VertexBufferLayout & layout) {
+void VertexArray::addBuffer(const VertexBuffer & vb, const VertexBufferLayout & layout, unsigned int index) {
 	bind();
 	vb.bind();
 	const auto& elements = layout.getElements();
 	unsigned int offset = 0;
-	for (unsigned int i = 0; i < elements.size(); ++i) {
-		const auto& element = elements[i];
+	for (unsigned int i = index; i < elements.size() + index; ++i) {
+		const auto& element = elements[i - index];
 		glEnableVertexAttribArray(i);
 		glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.getStride(), (const void*)offset);
 		offset += element.count * VertexBufferLayoutElement::getSizeOfType(element.type);

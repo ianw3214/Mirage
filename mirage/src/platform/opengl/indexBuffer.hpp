@@ -1,8 +1,9 @@
 #pragma once
 
+#include "mirage/core.hpp"
 #include <GL/glew.h>
 
-class IndexBuffer {
+class MIRAGE_API IndexBuffer {
 
 public:
 	IndexBuffer(const unsigned int* data, unsigned int count);

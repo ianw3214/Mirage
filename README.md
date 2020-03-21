@@ -9,7 +9,11 @@
   - [ ] Math utilities
   - [ ] Debugging utilities (logging)
   - [ ] Profiling/Performance
-- [ ] Model loading
+- [x] Model loading
+  - [ ] Proper rendering w/ transforms
+- [ ] Specify initial state (Reference Oasis game engine?)
+  - [ ] Remove polymorphism from Application class?
+- [ ] Fix cross-DLL problem w/ models
 
 ## GAME TASKS
 

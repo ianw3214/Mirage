@@ -12,3 +12,4 @@ target_sources(Mirage PRIVATE
     stateManager.cpp)
 
 add_subdirectory(events)
+add_subdirectory(graphics)

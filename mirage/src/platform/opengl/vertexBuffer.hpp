@@ -1,8 +1,9 @@
 #pragma once
 
+#include "mirage/core.hpp"
 #include <GL/glew.h>
 
-class VertexBuffer {
+class MIRAGE_API VertexBuffer {
 
 public:
 	VertexBuffer(const void* data, unsigned int size);
