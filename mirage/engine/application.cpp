@@ -37,6 +37,8 @@ Application::Application(const WindowConfig& config) {
     m_states->PushState(config.initialState());
 
     ApplicationManager::SetApplication(this);
+
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 }
 
 Application::~Application() {
