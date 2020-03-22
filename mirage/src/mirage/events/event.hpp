@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mirage/core.hpp"
+#include "mirage/util/util.hpp"
 
 namespace Mirage{
     class MIRAGE_API Input {
@@ -20,8 +21,7 @@ namespace Mirage{
         inline bool KeyPressed(int keycode);
 
     private:
-        // TODO: (Ian) Use smart pointer
         struct Impl;
-        Impl * impl;
+        Owned<Impl> impl;
     };
 }

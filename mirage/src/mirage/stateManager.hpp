@@ -2,6 +2,7 @@
 
 #include "core.hpp"
 #include "state.hpp"
+#include "mirage/util/util.hpp"
 
 // NOTE: (Ian) The state manager *may* not need to be exposed at all
 namespace Mirage{
@@ -20,8 +21,7 @@ namespace Mirage{
 
         void Update();
     private:
-        // TODO: (Ian) Use smart pointer here
         struct Impl;
-        Impl * impl;
+        Owned<Impl> impl;
     };
 }

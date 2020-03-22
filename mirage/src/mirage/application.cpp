@@ -4,13 +4,16 @@
 
 using namespace Mirage;
 
-Application * ApplicationManager::s_application = nullptr;
+//////////////////////////////////////////////////////////////////////////
+Reference<Application> ApplicationManager::s_application = nullptr;
 
-Renderer * ApplicationManager::GetRenderer()
+Reference<Renderer> ApplicationManager::GetRenderer()
 {
+    MIRAGE_TRAP(s_application);
     return s_application->m_renderer;
 }
 
+//////////////////////////////////////////////////////////////////////////
 Application::Application() : m_running(true) {
     m_window = new Window();
     m_window->Create();
@@ -32,14 +35,16 @@ Application::Application(const WindowConfig& config) {
     m_input = new Input();
 
     m_states->PushState(config.initialState());
-    
+
     ApplicationManager::SetApplication(this);
 }
 
 Application::~Application() {
-    delete m_input;
-    delete m_states;
-    delete m_window;
+    // Setting to nullptr will call the destructors
+    // TODO: Actually add a destroy function in smart pointers
+    m_input = nullptr;
+    m_states = nullptr;
+    m_window = nullptr;
 }
 
 void Application::Run() {

@@ -2,6 +2,8 @@
 
 #include <fstream>
 
+#include "mirage/util/util.hpp"
+
 // TODO: Put this somewhere better
 // String tokenizing utility function
 #include <sstream>
@@ -39,7 +41,8 @@ void OBJLoader::loadModel(std::string name, std::string path) {
 
 	std::ifstream model_file(path);
 	if (!model_file) {
-		// TODO: error handling
+		// TODO: Just log or something would probably work better
+		MIRAGE_TRAP(false);
 	}
 
 	// TODO: error handling for when file layout wrong

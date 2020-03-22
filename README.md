@@ -6,11 +6,14 @@
 - [ ] Refactor subsystems - make architecture more consistent
   - [ ] Experiment with using polymorphism
 - [ ] Misc. utilities
+  - [x] Common structs
   - [ ] Math utilities
   - [ ] Debugging utilities (logging)
-  - [ ] Smart pointer utilities
+  - [x] Smart pointer utilities
+    - [ ] Investigate not using smart pointers for engine stuff since it's usually simpler
   - [ ] Profiling/Performance
-  - [ ] Traps
+  - [x] Traps
+- [ ] Re-organize folder structure in engine
 - [x] Implement renderer
   - [x] Make renderer more accessible from game
 - [x] Model loading

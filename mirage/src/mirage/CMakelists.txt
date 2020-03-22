@@ -12,3 +12,4 @@ target_sources(Mirage PRIVATE
 
 add_subdirectory(events)
 add_subdirectory(graphics)
+add_subdirectory(util)

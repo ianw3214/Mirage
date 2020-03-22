@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mirage/core.hpp"
+#include "mirage/util/util.hpp"
 
 #include <string>
 #include <vector>
@@ -8,20 +9,6 @@
 #include <memory>
 
 #include "platform/opengl/glwrappers.hpp"
-
-// TODO: Remove temporary code
-struct Vec2f
-{
-    float x;
-    float y;
-};
-
-struct Vec3f 
-{
-    float x;
-    float y;
-    float z;
-};
 
 // TODO: Move this code somewhere else to make it shared
 class MIRAGE_API RawModel {

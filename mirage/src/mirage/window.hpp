@@ -1,9 +1,9 @@
 #pragma once
 
-// TODO: (Ian) Use smart pointers
 // TODO: (Ian) Precompiled headers?
 
 #include "core.hpp"
+#include "util/util.hpp"
 
 #include <string>
 #include <functional>
@@ -37,7 +37,7 @@ namespace Mirage {
         void SwapBuffer();
     private:
         struct Impl;
-        Impl * impl;
+        Owned<Impl> impl;
     };
 
 }

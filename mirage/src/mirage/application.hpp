@@ -5,19 +5,21 @@
 #include "stateManager.hpp"
 #include "graphics/renderer.hpp"
 #include "events/event.hpp"
+#include "util/util.hpp"
 
 namespace Mirage {
 
+    //////////////////////////////////////////////////////////////////////////
     class Application;
     class MIRAGE_API ApplicationManager {
     public:
-        // TODO: Add traps to make sure application exists and is not nullptr
-        static void SetApplication(Application * application) { s_application = application; }
-        static Renderer * GetRenderer();
+        static void SetApplication(Reference<Application> application) { s_application = application; }
+        static Reference<Renderer> GetRenderer();
     private:
-        static Application * s_application;
+        static Reference<Application> s_application;
     };
 
+    //////////////////////////////////////////////////////////////////////////
     class MIRAGE_API Application {
         friend class ApplicationManager;
     public:
@@ -29,11 +31,10 @@ namespace Mirage {
     protected:
         bool m_running;
 
-        // TODO: (Ian) Use a smart pointer
-        Window * m_window;
-        StateManager * m_states;
-        Renderer * m_renderer;
-        Input * m_input;
+        Owned<Window> m_window;
+        Owned<StateManager> m_states;
+        Owned<Renderer> m_renderer;
+        Owned<Input> m_input;
 
     private:
         void WindowClose();
