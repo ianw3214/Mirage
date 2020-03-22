@@ -1,4 +1,4 @@
-#include "mirage/events/event.hpp"
+#include "events/event.hpp"
 
 #include <SDL2/SDL.h>
 

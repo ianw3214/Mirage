@@ -3,7 +3,7 @@
 #include "core.hpp"
 
 namespace Mirage{
-    class MIRAGE_API State {
+    class State {
     public:
         State() {}
         virtual ~State() {}

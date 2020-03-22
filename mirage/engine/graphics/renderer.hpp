@@ -4,7 +4,7 @@
 
 namespace Mirage
 {
-    class MIRAGE_API Renderer
+    class Renderer
     {
     public:
         Renderer();

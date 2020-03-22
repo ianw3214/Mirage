@@ -20,7 +20,7 @@
   - [ ] Proper rendering w/ transforms
 - [x] Specify initial state (Reference Oasis game engine?)
   - [x] Remove polymorphism from Application class?
-- [ ] Fix cross-DLL problem w/ models
+- [x] Remove two project setup (too many headaches)
 
 ## GAME TASKS
 

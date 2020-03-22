@@ -26,7 +26,7 @@ namespace Mirage {
         } 
     };
 
-    class MIRAGE_API Window {
+    class Window {
     public:
         Window();
         ~Window();

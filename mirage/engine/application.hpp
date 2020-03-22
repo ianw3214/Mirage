@@ -11,7 +11,7 @@ namespace Mirage {
 
     //////////////////////////////////////////////////////////////////////////
     class Application;
-    class MIRAGE_API ApplicationManager {
+    class ApplicationManager {
     public:
         static void SetApplication(Reference<Application> application) { s_application = application; }
         static Reference<Renderer> GetRenderer();
@@ -20,7 +20,7 @@ namespace Mirage {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    class MIRAGE_API Application {
+    class Application {
         friend class ApplicationManager;
     public:
         Application();

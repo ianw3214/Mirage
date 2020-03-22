@@ -1,7 +1,7 @@
 #pragma once
 
-#include "mirage/core.hpp"
-#include "mirage/util/util.hpp"
+#include "core.hpp"
+#include "util/util.hpp"
 
 #include <string>
 #include <vector>
@@ -11,7 +11,7 @@
 #include "platform/opengl/glwrappers.hpp"
 
 // TODO: Move this code somewhere else to make it shared
-class MIRAGE_API RawModel {
+class RawModel {
 public:
 	VertexArray va;
 	IndexBuffer ib;
@@ -29,7 +29,7 @@ typedef const std::unique_ptr<RawModel>& ModelRef;
 
 
 // TODO: More global access to obj loader (don't want to instantiate all the time)
-class MIRAGE_API OBJLoader {
+class OBJLoader {
 
 public:
 

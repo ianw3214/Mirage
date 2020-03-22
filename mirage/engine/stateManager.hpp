@@ -2,11 +2,11 @@
 
 #include "core.hpp"
 #include "state.hpp"
-#include "mirage/util/util.hpp"
+#include "util/util.hpp"
 
 // NOTE: (Ian) The state manager *may* not need to be exposed at all
 namespace Mirage{
-    class MIRAGE_API StateManager {
+    class StateManager {
     public:
         StateManager();
         ~StateManager();

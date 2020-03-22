@@ -1,6 +1,6 @@
 #include "engine.hpp"
 
-#include "mirage/graphics/graphics.hpp"
+#include "graphics/graphics.hpp"
 #include "GL/glew.h"
 
 class SandboxState : public Mirage::State {

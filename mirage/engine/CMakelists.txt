@@ -1,3 +1,8 @@
+target_sources(Mirage PRIVATE engine.hpp)
+
+# PLATFORM SPECIFIC IMPLEMENTATIONS
+add_subdirectory(platform)
+
 target_sources(Mirage PRIVATE
     application.hpp
     core.hpp

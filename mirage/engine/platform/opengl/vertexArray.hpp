@@ -1,12 +1,12 @@
 #pragma once
 
-#include "mirage/core.hpp"
+#include "core.hpp"
 #include "vertexBuffer.hpp"
 #include "vertexBufferLayout.hpp"
 
 #include <GL/glew.h>
 
-class MIRAGE_API VertexArray {
+class VertexArray {
 
 public:
 	VertexArray();

@@ -1,4 +1,4 @@
-#include "mirage/window.hpp"
+#include "window.hpp"
 
 // TODO: (Ian) Log errors before crashing
 // TODO: (Ian) Use WIN32 API to handle low level systems
@@ -7,7 +7,7 @@
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
 
-#include "mirage/events/event.hpp"
+#include "events/event.hpp"
 
 using namespace Mirage;
 static bool s_SDL_init = false;

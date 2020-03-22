@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "mirage/util/util.hpp"
+#include "util/util.hpp"
 
 // TODO: Put this somewhere better
 // String tokenizing utility function

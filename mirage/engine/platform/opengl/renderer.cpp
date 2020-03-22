@@ -1,4 +1,4 @@
-#include "mirage/graphics/renderer.hpp"
+#include "graphics/renderer.hpp"
 using namespace Mirage;
 
 #include <GL/glew.h>
