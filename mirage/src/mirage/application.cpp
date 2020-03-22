@@ -4,6 +4,13 @@
 
 using namespace Mirage;
 
+Application * ApplicationManager::s_application = nullptr;
+
+Renderer * ApplicationManager::GetRenderer()
+{
+    return s_application->m_renderer;
+}
+
 Application::Application() : m_running(true) {
     m_window = new Window();
     m_window->Create();
@@ -11,6 +18,8 @@ Application::Application() : m_running(true) {
     m_states = new StateManager();
 
     m_input = new Input();
+
+    ApplicationManager::SetApplication(this);
 }
 
 Application::Application(const WindowConfig& config) {
@@ -23,6 +32,8 @@ Application::Application(const WindowConfig& config) {
     m_input = new Input();
 
     m_states->PushState(config.initialState());
+    
+    ApplicationManager::SetApplication(this);
 }
 
 Application::~Application() {

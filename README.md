@@ -10,8 +10,9 @@
   - [ ] Debugging utilities (logging)
   - [ ] Smart pointer utilities
   - [ ] Profiling/Performance
+  - [ ] Traps
 - [x] Implement renderer
-  - [ ] Make renderer more accessible from game
+  - [x] Make renderer more accessible from game
 - [x] Model loading
   - [ ] Proper rendering w/ transforms
 - [x] Specify initial state (Reference Oasis game engine?)

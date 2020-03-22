@@ -21,7 +21,7 @@ namespace Mirage
         const static Colour BLUE = Colour{0.f, 0.f, 1.f};
     }
 
-    class Renderer
+    class MIRAGE_API Renderer
     {
     public:
         Renderer();

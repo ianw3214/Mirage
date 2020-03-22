@@ -8,7 +8,18 @@
 
 namespace Mirage {
 
+    class Application;
+    class MIRAGE_API ApplicationManager {
+    public:
+        // TODO: Add traps to make sure application exists and is not nullptr
+        static void SetApplication(Application * application) { s_application = application; }
+        static Renderer * GetRenderer();
+    private:
+        static Application * s_application;
+    };
+
     class MIRAGE_API Application {
+        friend class ApplicationManager;
     public:
         Application();
         Application(const WindowConfig& config);

@@ -13,12 +13,7 @@ public:
     }
     void Update() {
         ModelRef model = loader.getModel("res/test.obj");
-
-        // TODO: Remove temporary stuff
-        // RENDERING STUFF
-        model->va.bind();
-        model->ib.bind();
-        glDrawElements(GL_TRIANGLES, model->ib.getCount(), GL_UNSIGNED_INT, nullptr);
+        Mirage::ApplicationManager::GetRenderer()->DrawModel(model, Mirage::Colours::WHITE);
     }
 private:
     OBJLoader loader;
