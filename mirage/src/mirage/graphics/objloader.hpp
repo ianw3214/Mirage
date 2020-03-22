@@ -23,6 +23,7 @@ struct Vec3f
     float z;
 };
 
+// TODO: Move this code somewhere else to make it shared
 class MIRAGE_API RawModel {
 public:
 	VertexArray va;

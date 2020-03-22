@@ -3,7 +3,7 @@
 #include "core.hpp"
 #include "window.hpp"
 #include "stateManager.hpp"
-#include "renderer.hpp"
+#include "graphics/renderer.hpp"
 #include "events/event.hpp"
 
 namespace Mirage {

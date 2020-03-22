@@ -4,8 +4,7 @@ target_sources(Mirage PRIVATE
     entry.hpp
     window.hpp
     state.hpp
-    stateManager.hpp
-    renderer.hpp)
+    stateManager.hpp)
 
 target_sources(Mirage PRIVATE
     application.cpp

@@ -8,7 +8,10 @@
 - [ ] Misc. utilities
   - [ ] Math utilities
   - [ ] Debugging utilities (logging)
+  - [ ] Smart pointer utilities
   - [ ] Profiling/Performance
+- [x] Implement renderer
+  - [ ] Make renderer more accessible from game
 - [x] Model loading
   - [ ] Proper rendering w/ transforms
 - [x] Specify initial state (Reference Oasis game engine?)

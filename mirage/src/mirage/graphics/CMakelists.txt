@@ -1,2 +1,6 @@
-target_sources(Mirage PRIVATE objloader.hpp graphics.hpp)
+target_sources(Mirage PRIVATE 
+    objloader.hpp 
+    renderer.hpp 
+    graphics.hpp)
+
 target_sources(Mirage PRIVATE objloader.cpp)
