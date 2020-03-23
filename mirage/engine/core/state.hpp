@@ -1,7 +1,5 @@
 #pragma once
 
-#include "core.hpp"
-
 namespace Mirage{
     class State {
     public:

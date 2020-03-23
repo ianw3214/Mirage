@@ -1,6 +1,5 @@
 #pragma once
 
-#include "core.hpp"
 #include <GL/glew.h>
 
 class IndexBuffer {

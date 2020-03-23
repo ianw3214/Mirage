@@ -4,17 +4,10 @@ target_sources(Mirage PRIVATE engine.hpp)
 add_subdirectory(platform)
 
 target_sources(Mirage PRIVATE
-    application.hpp
-    core.hpp
     entry.hpp
-    window.hpp
-    state.hpp
-    stateManager.hpp)
+    keycodes.hpp)
 
-target_sources(Mirage PRIVATE
-    application.cpp
-    stateManager.cpp)
-
+add_subdirectory(core)
 add_subdirectory(events)
 add_subdirectory(graphics)
 add_subdirectory(util)

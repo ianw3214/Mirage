@@ -1,6 +1,5 @@
 #pragma once
 
-#include "core.hpp"
 #include "vertexBuffer.hpp"
 #include "vertexBufferLayout.hpp"
 

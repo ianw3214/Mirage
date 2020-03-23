@@ -1,6 +1,6 @@
 #pragma once
 
-#include "application.hpp"
+#include "core/application.hpp"
 
 #include <stdexcept>
 

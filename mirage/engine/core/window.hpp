@@ -2,7 +2,6 @@
 
 // TODO: (Ian) Precompiled headers?
 
-#include "core.hpp"
 #include "util/util.hpp"
 
 #include <string>

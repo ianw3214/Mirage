@@ -67,9 +67,9 @@ void Renderer::DrawModel(ModelRef modelRef, const Colour& colour)
     glm::vec3 cameraPos = glm::vec3(10.f, 0.f, 10.f);
     glm::mat4 model = glm::mat4(1.f);
     // Fore some reason we do this in reverse order? normally want to translate first
-    model = glm::translate(model, glm::vec3(1.f, 0.f, 0.f));
+    model = glm::translate(model, modelRef->GetPosition().Get());
     model = glm::rotate(model, angle, glm::vec3(0.f, 0.f, 1.f));
-    model = glm::scale(model, glm::vec3(0.5f));
+    model = glm::scale(model, glm::vec3(modelRef->GetScale()));
     glm::mat4 view = glm::lookAt(cameraPos, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f));
     // glm::mat4 projection = glm::ortho(-8.f, 8.f, -6.f, 6.f, -10.f, 100.f);
     glm::mat4 projection = glm::perspective(glm::radians(45.f), 8.f/6.f, 0.01f, 100.f);

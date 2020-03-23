@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 #include "pointer.hpp"
 
 #define MIRAGE_TRAP(cond) if(!(cond)) *((unsigned int*)0) = 0xDEAD;
@@ -8,6 +10,11 @@ struct Vec2f
 {
     float x;
     float y;
+
+    glm::vec2 Get() const
+    {
+        return glm::vec2(x, y);
+    }
 };
 
 struct Vec3f 
@@ -15,6 +22,11 @@ struct Vec3f
     float x;
     float y;
     float z;
+
+    glm::vec3 Get() const
+    {
+        return glm::vec3(x, y, z);
+    }
 };
 
 namespace Mirage

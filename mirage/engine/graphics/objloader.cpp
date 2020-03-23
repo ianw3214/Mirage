@@ -21,7 +21,7 @@ inline StrTokens split(const std::string& s, char delimiter = ' ', bool removeEm
     return tokens;
 }
 
-std::unordered_map<std::string, std::unique_ptr<RawModel>> OBJLoader::models;
+std::unordered_map<std::string, Mirage::Owned<RawModel>> OBJLoader::models;
 
 OBJLoader::OBJLoader() {
 
@@ -95,7 +95,7 @@ void OBJLoader::loadModel(std::string name, std::string path) {
 		verticesArray[indexPtr++] = vertex.z;
 	}
 
-	std::unique_ptr<RawModel> model = std::make_unique<RawModel>(&(indices[0]), indices.size());
+	Mirage::Owned<RawModel> model = new RawModel(&(indices[0]), indices.size());
     // TODO: This can be setup to use the same buffer layout for all 3
 	{	// SETUP VERTEX POSITIONS BUFFER
 		model->vbs.emplace_back(verticesArray, sizeof(float) * vertices.size() * 3);

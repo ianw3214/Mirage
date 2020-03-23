@@ -1,6 +1,5 @@
 #pragma once
 
-#include "core.hpp"
 #include "util/util.hpp"
 
 namespace Mirage{

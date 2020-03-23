@@ -5,7 +5,7 @@
 // Entry point
 #include "entry.hpp"
 
-#include "application.hpp"
-#include "state.hpp"
+#include "core/application.hpp"
+#include "core/state.hpp"
 
 #include "keycodes.hpp"

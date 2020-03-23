@@ -17,11 +17,14 @@
 - [x] Implement renderer
   - [x] Make renderer more accessible from game
 - [x] Model loading
+  - [x] Separate model class
 - [x] Proper rendering w/ transforms
-  - [ ] Move transform setting code into model code  
+  - [x] Move transform setting code into model code
+  - [ ] Camera class  
 - [x] Specify initial state (Reference Oasis game engine?)
   - [x] Remove polymorphism from Application class?
 - [x] Remove two project setup (too many headaches)
+- [ ] Quaternions (yay!)
 
 ## GAME TASKS
 

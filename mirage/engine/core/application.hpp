@@ -1,6 +1,5 @@
 #pragma once
 
-#include "core.hpp"
 #include "window.hpp"
 #include "stateManager.hpp"
 #include "graphics/renderer.hpp"

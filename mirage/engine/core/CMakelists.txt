@@ -1,0 +1,9 @@
+target_sources(Mirage PRIVATE 
+    application.hpp
+    window.hpp
+    state.hpp
+    stateManager.hpp)
+
+target_sources(Mirage PRIVATE 
+    application.cpp
+    stateManager.cpp)
