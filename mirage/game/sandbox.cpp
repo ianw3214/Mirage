@@ -6,6 +6,7 @@
 class SandboxState : public Mirage::State {
 public:
     void Init() {
+        Mirage::ApplicationManager::GetCamera()->SetPosition(6.f, 0.f, 3.f);
         loader.loadModel("res/test.obj");
     }
     void Shutdown() {

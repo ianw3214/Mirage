@@ -7,3 +7,6 @@ target_sources(Mirage PRIVATE
 target_sources(Mirage PRIVATE 
     model.cpp
     objloader.cpp)
+
+target_sources(Mirage PRIVATE
+    camera.hpp)

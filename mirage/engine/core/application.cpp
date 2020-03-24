@@ -13,6 +13,12 @@ Reference<Renderer> ApplicationManager::GetRenderer()
     return s_application->m_renderer;
 }
 
+Reference<Camera> ApplicationManager::GetCamera()
+{
+    MIRAGE_TRAP(s_application);
+    return s_application->m_camera;
+}
+
 //////////////////////////////////////////////////////////////////////////
 Application::Application() : m_running(true) {
     m_window = new Window();
@@ -34,9 +40,12 @@ Application::Application(const WindowConfig& config) {
     m_renderer = new Renderer();
     m_input = new Input();
 
-    m_states->PushState(config.initialState());
+    m_camera = new Camera();
 
     ApplicationManager::SetApplication(this);
+
+    // TODO: Perhaps there can be a separate init for core systems vs gameplay systems
+    m_states->PushState(config.initialState());
 
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 }

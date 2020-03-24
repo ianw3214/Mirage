@@ -6,6 +6,7 @@ using namespace Mirage;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "core/application.hpp"
 #include "shader.hpp"
 
 struct Renderer::Impl {
@@ -57,22 +58,18 @@ void Renderer::DrawQuad(float x, float y, float w, float h, const Colour& colour
 
 void Renderer::DrawModel(ModelRef modelRef, const Colour& colour)
 {
-    /*
-    m_impl->m_basicShader->setUniform4f("u_Colour", colour.r, colour.g, colour.b, 1.f);
-    m_impl->m_basicShader->bind();
-    */
-
    static float angle = 0.f;
 
-    glm::vec3 cameraPos = glm::vec3(10.f, 0.f, 10.f);
+    Reference<Camera> camera = ApplicationManager::GetCamera();
+
     glm::mat4 model = glm::mat4(1.f);
     // Fore some reason we do this in reverse order? normally want to translate first
     model = glm::translate(model, modelRef->GetPosition().Get());
     model = glm::rotate(model, angle, glm::vec3(0.f, 0.f, 1.f));
     model = glm::scale(model, glm::vec3(modelRef->GetScale()));
-    glm::mat4 view = glm::lookAt(cameraPos, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f));
     // glm::mat4 projection = glm::ortho(-8.f, 8.f, -6.f, 6.f, -10.f, 100.f);
-    glm::mat4 projection = glm::perspective(glm::radians(45.f), 8.f/6.f, 0.01f, 100.f);
+    glm::mat4 view = camera->GetViewMatrix();
+    glm::mat4 projection = camera->GetProjectionMatrix();
     glm::mat4 transform = projection * view * model;
 
     m_impl->m_transformShader->setUniformMat4("transform", glm::value_ptr(transform));

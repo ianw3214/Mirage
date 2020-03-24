@@ -20,7 +20,7 @@
   - [x] Separate model class
 - [x] Proper rendering w/ transforms
   - [x] Move transform setting code into model code
-  - [ ] Camera class  
+  - [x] Camera class  
 - [x] Specify initial state (Reference Oasis game engine?)
   - [x] Remove polymorphism from Application class?
 - [x] Remove two project setup (too many headaches)
