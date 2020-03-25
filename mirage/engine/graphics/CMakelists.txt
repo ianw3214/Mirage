@@ -9,4 +9,8 @@ target_sources(Mirage PRIVATE
     objloader.cpp)
 
 target_sources(Mirage PRIVATE
-    camera.hpp)
+    camera.hpp
+    terrain.hpp)
+
+target_sources(Mirage PRIVATE
+    terrain.cpp)

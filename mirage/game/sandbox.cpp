@@ -17,9 +17,12 @@ public:
         model->SetPosition(0.f, 0.f, 0.f);
         model->SetScale(1.f);
         Mirage::ApplicationManager::GetRenderer()->DrawModel(model, Mirage::Colours::WHITE);
+
+        Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain.GetModel(), Mirage::Colours::RED);
     }
 private:
     OBJLoader loader;
+    Terrain terrain;
 };
 
 Mirage::WindowConfig Mirage::GetConfiguration()

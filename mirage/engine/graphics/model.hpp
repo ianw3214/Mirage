@@ -12,7 +12,12 @@ public:
 	// Keep track of VBOs in order to free them later
 	std::vector<VertexBuffer> vbs;
 
-	RawModel(unsigned int * indices, unsigned int count) : va(), ib(indices, count) {
+	RawModel(unsigned int * indices, unsigned int count) 
+        : va()
+        , ib(indices, count) 
+        , m_scale(1.f)
+        , m_position()
+    {
 		// Do this to prevent copying in the vector so that destructors aren't accidentally called
 		vbs.reserve(3);
 	}

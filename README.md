@@ -28,7 +28,8 @@
 
 ## GAME TASKS
 
-- [ ] Terrain setup
+- [x] Terrain setup
+  - [ ] Properly orient terrain + allow multiple terrain pieces
 - [ ] Character in game
   - [ ] Character controller (movement)
 - [ ] Entity system
