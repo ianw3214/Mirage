@@ -47,3 +47,21 @@ namespace Mirage
         const static Colour BLUE = Colour{0.f, 0.f, 1.f};
     }
 }
+
+// String tokenizing utility function
+#include <vector>
+#include <string>
+#include <sstream>
+typedef std::vector<std::string> StrTokens;
+inline StrTokens split(const std::string& s, char delimiter = ' ', bool removeEmpty = false)
+{
+    StrTokens tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+    while (std::getline(tokenStream, token, delimiter))
+    {
+        if (removeEmpty && token.size() == 0) continue;
+        tokens.push_back(token);
+    }
+    return tokens;
+}

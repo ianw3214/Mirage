@@ -1,7 +1,6 @@
 #include "core/window.hpp"
 
 // TODO: (Ian) Log errors before crashing
-// TODO: (Ian) Use WIN32 API to handle low level systems
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>

@@ -4,23 +4,6 @@
 
 #include "util/util.hpp"
 
-// TODO: Put this somewhere better
-// String tokenizing utility function
-#include <sstream>
-typedef std::vector<std::string> StrTokens;
-inline StrTokens split(const std::string& s, char delimiter = ' ', bool removeEmpty = false)
-{
-    StrTokens tokens;
-    std::string token;
-    std::istringstream tokenStream(s);
-    while (std::getline(tokenStream, token, delimiter))
-    {
-        if (removeEmpty && token.size() == 0) continue;
-        tokens.push_back(token);
-    }
-    return tokens;
-}
-
 std::unordered_map<std::string, Mirage::Owned<RawModel>> OBJLoader::models;
 
 OBJLoader::OBJLoader() {
@@ -96,7 +79,6 @@ void OBJLoader::loadModel(std::string name, std::string path) {
 	}
 
 	Mirage::Owned<RawModel> model = new RawModel(&(indices[0]), indices.size());
-    // TODO: This can be setup to use the same buffer layout for all 3
 	{	// SETUP VERTEX POSITIONS BUFFER
 		model->vbs.emplace_back(verticesArray, sizeof(float) * vertices.size() * 3);
 		VertexBuffer& vb_pos = model->vbs[0];

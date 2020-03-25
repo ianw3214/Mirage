@@ -29,8 +29,7 @@ void Mirage::Input::Update() {
     impl->Clear();
     SDL_Event e;
     while(SDL_PollEvent(&e)) {
-        // TODO: (Ian) Also check for SDL_WINDOWEVENT_CLOSE
-        if (e.type == SDL_QUIT) {
+        if (e.type == SDL_QUIT || (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_CLOSE)) {
             impl->windowClosed = true;
         }
         if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
