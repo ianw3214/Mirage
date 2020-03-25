@@ -29,10 +29,17 @@
 ## GAME TASKS
 
 - [ ] Terrain setup
+- [ ] Character in game
+  - [ ] Character controller (movement)
+- [ ] Entity system
 
 ## ART TASKS
 
 - [ ] Concept explorations
+- [ ] Digital painted splash art
+- [ ] Learn 3d modelling
+  - [ ] Character model
+  - [ ] Tree model
 
 ## GENERAL TASKS
 
