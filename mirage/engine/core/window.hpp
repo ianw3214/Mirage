@@ -36,7 +36,7 @@ namespace Mirage {
         void SwapBuffer();
     private:
         struct Impl;
-        Owned<Impl> impl;
+        Impl * impl;
     };
 
 }

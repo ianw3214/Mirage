@@ -15,6 +15,7 @@ Mirage::StateManager::~StateManager() {
     for (State * state : impl->states) {
         delete state;
     }
+    delete impl;
 }
 
 void Mirage::StateManager::PushState(State * state) {

@@ -31,7 +31,7 @@ Window::Window() {
 }
 
 Window::~Window() {
-    
+    delete impl;
 }
 
 // Allow configurable to eventually load in from file maybe

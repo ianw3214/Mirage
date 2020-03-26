@@ -52,10 +52,12 @@ Application::Application(const WindowConfig& config) {
 
 Application::~Application() {
     // Setting to nullptr will call the destructors
-    // TODO: Actually add a destroy function in smart pointers
-    m_input = nullptr;
-    m_states = nullptr;
-    m_window = nullptr;
+    delete m_input;
+    delete m_states;
+    delete m_window;
+
+    // TODO: This will be moved when scene class implemented
+    delete m_camera;
 }
 
 void Application::Run() {

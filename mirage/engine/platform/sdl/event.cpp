@@ -22,6 +22,7 @@ Mirage::Input::Input() {
     impl = new Impl();
 }
 Mirage::Input::~Input() {
+    delete impl;
 }
 
 void Mirage::Input::Update() {

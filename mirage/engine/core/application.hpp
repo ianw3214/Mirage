@@ -35,13 +35,13 @@ namespace Mirage {
     protected:
         bool m_running;
 
-        Owned<Window> m_window;
-        Owned<StateManager> m_states;
-        Owned<Renderer> m_renderer;
-        Owned<Input> m_input;
+        Window * m_window;
+        StateManager * m_states;
+        Renderer * m_renderer;
+        Input * m_input;
 
         // TODO: Put this in a 'scene' class maybe
-        Owned<Camera> m_camera;
+        Camera * m_camera;
 
     private:
         void WindowClose();

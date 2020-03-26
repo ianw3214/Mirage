@@ -21,6 +21,6 @@ namespace Mirage{
         void Update();
     private:
         struct Impl;
-        Owned<Impl> impl;
+        Impl * impl;
     };
 }

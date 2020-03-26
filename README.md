@@ -10,7 +10,7 @@
   - [ ] Math utilities
   - [ ] Debugging utilities (logging)
   - [x] Smart pointer utilities
-    - [ ] Investigate not using smart pointers for engine stuff since it's usually simpler
+    - [x] Investigate not using smart pointers for engine stuff since it's usually simpler
   - [ ] Profiling/Performance
   - [x] Traps
 - [ ] Re-organize folder structure in engine
@@ -18,6 +18,7 @@
   - [x] Make renderer more accessible from game
 - [x] Model loading
   - [x] Separate model class
+  - [ ] Model textures
 - [x] Proper rendering w/ transforms
   - [x] Move transform setting code into model code
   - [x] Camera class  
@@ -31,6 +32,7 @@
 - [x] Terrain setup
   - [x] Properly orient terrain + allow multiple terrain pieces
   - [ ] Terrain manager
+  - [ ] Move to better folder location - graphicsUtils/graphicsToolbox
 - [ ] Character in game
   - [ ] Character controller (movement)
 - [ ] Entity system
