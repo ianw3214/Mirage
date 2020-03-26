@@ -21,9 +21,9 @@ void Terrain::GenerateTerrain()
     {
         for (int j = 0; j < kVertexCount; ++j)
         {
-            vertices[vertexIndex * 3] = -(float)j/((float) kVertexCount - 1) * kSize;
+            vertices[vertexIndex * 3] = -(float)j / ((float) kVertexCount - 1) * kSize + m_x;
             vertices[vertexIndex * 3 + 1] = 0;
-            vertices[vertexIndex * 3 + 2] = -(float)i/((float)kVertexCount - 1) * kSize;
+            vertices[vertexIndex * 3 + 2] = -(float)i / ((float)kVertexCount - 1) * kSize + m_y;
             normals[vertexIndex * 3] = 0;
             normals[vertexIndex * 3 + 1] = 1;
             normals[vertexIndex * 3 + 2] = 0;

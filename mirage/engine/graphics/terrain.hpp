@@ -5,7 +5,7 @@
 class Terrain
 {
 public:
-    static constexpr float kSize = 10.f;
+    static constexpr float kSize = 100.f;
     static constexpr int kVertexCount = 128;
 
     Terrain(int x = 0, int y = 0);

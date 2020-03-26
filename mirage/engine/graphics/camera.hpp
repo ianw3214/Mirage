@@ -19,7 +19,7 @@ public:
 
     glm::mat4 GetViewMatrix() const
     {
-        return glm::lookAt(m_cameraPos, m_cameraTarget, glm::vec3(0.f, 0.f, 1.f));
+        return glm::lookAt(m_cameraPos, m_cameraTarget, glm::vec3(0.f, 1.f, 0.f));
     }
 
     glm::mat4 GetProjectionMatrix() const

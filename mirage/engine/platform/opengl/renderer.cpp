@@ -58,14 +58,13 @@ void Renderer::DrawQuad(float x, float y, float w, float h, const Colour& colour
 
 void Renderer::DrawModel(ModelRef modelRef, const Colour& colour)
 {
-   static float angle = 0.f;
-
     Reference<Camera> camera = ApplicationManager::GetCamera();
 
     glm::mat4 model = glm::mat4(1.f);
     // Fore some reason we do this in reverse order? normally want to translate first
     model = glm::translate(model, modelRef->GetPosition().Get());
-    model = glm::rotate(model, angle, glm::vec3(0.f, 0.f, 1.f));
+    // TODO: Implement rotate
+    // model = glm::rotate(model, angle, glm::vec3(0.f, 0.f, 1.f));
     model = glm::scale(model, glm::vec3(modelRef->GetScale()));
     // glm::mat4 projection = glm::ortho(-8.f, 8.f, -6.f, 6.f, -10.f, 100.f);
     glm::mat4 view = camera->GetViewMatrix();
@@ -75,8 +74,6 @@ void Renderer::DrawModel(ModelRef modelRef, const Colour& colour)
     m_impl->m_transformShader->setUniformMat4("transform", glm::value_ptr(transform));
     m_impl->m_transformShader->setUniform4f("u_Colour", colour.r, colour.g, colour.b, 1.f);
     m_impl->m_transformShader->bind();
-
-    angle += 0.001f;
 
     modelRef->va.bind();
     modelRef->ib.bind();
