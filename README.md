@@ -26,6 +26,7 @@
   - [x] Remove polymorphism from Application class?
 - [x] Remove two project setup (too many headaches)
 - [ ] Quaternions (yay!)
+- [ ] Lighting
 
 ## GAME TASKS
 
@@ -35,6 +36,8 @@
   - [ ] Move to better folder location - graphicsUtils/graphicsToolbox
 - [ ] Character in game
   - [ ] Character controller (movement)
+  - [ ] Character controller (camera rotation)
+  - [ ] Character moves with terrain (not necessarily physics based)
 - [ ] Entity system
 
 ## ART TASKS
@@ -48,3 +51,4 @@
 ## GENERAL TASKS
 
 - [ ] General game design
+- [ ] Re-organize TODOs to be more categorized

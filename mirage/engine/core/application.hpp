@@ -17,6 +17,7 @@ namespace Mirage {
     public:
         static void SetApplication(Reference<Application> application) { s_application = application; }
         static Reference<Renderer> GetRenderer();
+        static Reference<Input> GetInput();
         // TODO: Put this in a 'scene' class maybe
         static Reference<Camera> GetCamera();
     private:

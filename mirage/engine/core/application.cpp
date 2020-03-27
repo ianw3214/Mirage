@@ -13,6 +13,12 @@ Reference<Renderer> ApplicationManager::GetRenderer()
     return s_application->m_renderer;
 }
 
+Reference<Input> ApplicationManager::GetInput()
+{
+    MIRAGE_TRAP(s_application);
+    return s_application->m_input;
+}
+
 Reference<Camera> ApplicationManager::GetCamera()
 {
     MIRAGE_TRAP(s_application);
