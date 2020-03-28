@@ -9,6 +9,8 @@ struct Mirage::Input::Impl {
     // Mouse event variables
     bool leftMouseClicked;
     bool leftMouseReleased;
+    int mouseX;
+    int mouseY;
 
     Impl() : windowClosed(false), leftMouseClicked(false), leftMouseReleased(false) {}
     void Clear() {
@@ -40,6 +42,7 @@ void Mirage::Input::Update() {
             impl->leftMouseReleased = true;
         }
     }
+    SDL_GetMouseState(&(impl->mouseX), &(impl->mouseY));
 }
 
 bool Mirage::Input::WindowClosed() {
@@ -52,6 +55,16 @@ bool Mirage::Input::LeftMouseClicked() {
 
 bool Mirage::Input::LeftMouseReleased() {
     return impl->leftMouseReleased;
+}
+
+int Mirage::Input::GetMouseX() const
+{
+    return impl->mouseX;
+}
+
+int Mirage::Input::GetMouseY() const
+{
+    return impl->mouseY;
 }
 
 bool Mirage::Input::KeyPressed(int keycode) {

@@ -17,6 +17,9 @@ public:
 
         m_playerPos = Vec3f{0.f, 0.f, 0.f};
         m_angle = 0.f;
+        m_movingCamera = false;
+        m_cameraMoveStartAngle = 0.f;
+        m_cameraMoveStartX = 0;
     }
     void Shutdown() {
 
@@ -24,27 +27,49 @@ public:
     void Update() {
         if (Mirage::ApplicationManager::GetInput()->KeyPressed(SDL_SCANCODE_W))
         {
-            m_playerPos.z -= 0.01f;
+            // m_playerPos.z -= 0.01f;
+            m_playerPos.x -= std::sin(m_angle) * 0.01f;
+            m_playerPos.z -= std::cos(m_angle) * 0.01f;
         }
         if (Mirage::ApplicationManager::GetInput()->KeyPressed(SDL_SCANCODE_S))
         {
-            m_playerPos.z += 0.01f;
+            m_playerPos.x += std::sin(m_angle) * 0.01f;
+            m_playerPos.z += std::cos(m_angle) * 0.01f;
         }
         if (Mirage::ApplicationManager::GetInput()->KeyPressed(SDL_SCANCODE_D))
         {
-            m_playerPos.x += 0.01f;
+            m_playerPos.x += std::sin(m_angle + 1.57079632679f) * 0.01f;
+            m_playerPos.z += std::cos(m_angle + 1.57079632679f) * 0.01f;
         }
         if (Mirage::ApplicationManager::GetInput()->KeyPressed(SDL_SCANCODE_A))
         {
-            m_playerPos.x -= 0.01f;
+            m_playerPos.x += std::sin(m_angle - 1.57079632679f) * 0.01f;
+            m_playerPos.z += std::cos(m_angle - 1.57079632679f) * 0.01f;
+        }
+        if (Mirage::ApplicationManager::GetInput()->LeftMouseClicked())
+        {
+            m_movingCamera = true;
+            m_cameraMoveStartAngle = m_angle;
+            m_cameraMoveStartX = Mirage::ApplicationManager::GetInput()->GetMouseX();
+        }
+        if (Mirage::ApplicationManager::GetInput()->LeftMouseReleased())
+        {
+            m_movingCamera = false;
+        }
+
+        if (m_movingCamera)
+        {
+            constexpr float sensitivity = 0.005f;
+            int offset = m_cameraMoveStartX - Mirage::ApplicationManager::GetInput()->GetMouseX();
+            m_angle = m_cameraMoveStartAngle + offset * sensitivity;
         }
 
         {   // Update the camera
-            Vec3f target = m_playerPos;
-            target.x += std::sin(m_angle) * 5.f;
-            target.y += 3.f;    // Always 3m above ground
-            target.z += std::cos(m_angle) * 5.f;
-            Mirage::ApplicationManager::GetCamera()->SetPosition(target);
+            Vec3f cameraPos = m_playerPos;
+            cameraPos.x += std::sin(m_angle) * 5.f;
+            cameraPos.y += 3.f;    // Always 3m above ground
+            cameraPos.z += std::cos(m_angle) * 5.f;
+            Mirage::ApplicationManager::GetCamera()->SetPosition(cameraPos);
             Mirage::ApplicationManager::GetCamera()->SetTarget(m_playerPos);
         }
 
@@ -65,6 +90,9 @@ private:
     // Fix camera up/down angle for now
     Vec3f m_playerPos;
     float m_angle;
+    bool m_movingCamera;
+    float m_cameraMoveStartAngle;
+    int m_cameraMoveStartX;
 };
 
 Mirage::WindowConfig Mirage::GetConfiguration()

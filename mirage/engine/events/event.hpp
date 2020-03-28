@@ -15,6 +15,8 @@ namespace Mirage{
         // Mouse events
         bool LeftMouseClicked();
         bool LeftMouseReleased();
+        int GetMouseX() const;
+        int GetMouseY() const;
 
         // Key events
         bool KeyPressed(int keycode);

@@ -35,8 +35,9 @@
   - [ ] Terrain manager
   - [ ] Move to better folder location - graphicsUtils/graphicsToolbox
 - [ ] Character in game
-  - [ ] Character controller (movement)
-  - [ ] Character controller (camera rotation)
+  - [x] Character controller (movement)
+  - [x] Character controller (camera rotation)
+  - [ ] Camera rotation in up/down axis as well
   - [ ] Character moves with terrain (not necessarily physics based)
 - [ ] Entity system
 
