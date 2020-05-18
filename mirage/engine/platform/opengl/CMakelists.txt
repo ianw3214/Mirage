@@ -15,3 +15,5 @@ target_sources(Mirage PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/vertexBufferLayout.hpp)
 
 target_sources(Mirage PRIVATE renderer.cpp)
+
+add_subdirectory(imgui)

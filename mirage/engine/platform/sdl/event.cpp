@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL.h>
 
+#include "imgui/imgui_impl_sdl.h"
+
 struct Mirage::Input::Impl {
     // Window event variables
     bool windowClosed;
@@ -28,6 +30,7 @@ Mirage::Input::~Input() {
 }
 
 void Mirage::Input::Update() {
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
     // Clear the previous input state first
     impl->Clear();
     SDL_Event e;
@@ -35,11 +38,19 @@ void Mirage::Input::Update() {
         if (e.type == SDL_QUIT || (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_CLOSE)) {
             impl->windowClosed = true;
         }
-        if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
-            impl->leftMouseClicked = true;
+        ImGui_ImplSDL2_ProcessEvent(&e);
+        if (!io.WantCaptureMouse)
+        {
+            if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
+                impl->leftMouseClicked = true;
+            }
+            if (e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
+                impl->leftMouseReleased = true;
+            }
         }
-        if (e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
-            impl->leftMouseReleased = true;
+        if (!io.WantCaptureKeyboard)
+        {
+            // TODO: Implement
         }
     }
     SDL_GetMouseState(&(impl->mouseX), &(impl->mouseY));

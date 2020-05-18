@@ -27,6 +27,9 @@
 - [x] Remove two project setup (too many headaches)
 - [ ] Quaternions (yay!)
 - [ ] Lighting
+- [x] Setup ImGui
+  - [ ] ImGui text input not working
+  - [ ] Basic core engine info ImGui window
 
 ## GAME TASKS
 

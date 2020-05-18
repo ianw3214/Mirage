@@ -21,12 +21,15 @@ Renderer::Renderer()
     m_impl->m_basicShader->setUniform4f("u_Colour", 1.f, 0.f, 1.f, 1.f);
     m_impl->m_transformShader = new Shader("res/shaders/transform.glsl", "res/shaders/frag.glsl");
     m_impl->m_transformShader->setUniform4f("u_Colour", 1.f, 0.f, 1.f, 1.f);
+
+    // glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer::Clear(float r, float g, float b)
 {
     glClearColor(r, g, b, 1.f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 const unsigned int SQUARE_INDICES[6] = { 0, 1, 3, 0, 2, 3 };

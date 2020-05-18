@@ -32,11 +32,12 @@ namespace Mirage {
 
         void Create(const WindowConfig& config = WindowConfig());
 
-        void Update();
+        void StartFrame();
+        void EndFrame();
         void SwapBuffer();
     private:
         struct Impl;
-        Impl * impl;
+        Impl * m_impl;
     };
 
 }

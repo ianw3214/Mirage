@@ -1,5 +1,6 @@
 # USE SDL/OPENGL FOR WINDOWS PROJECTS
 if(WIN32)
+target_compile_definitions(Mirage PRIVATE -DMIRAGE_OPENGL -DMIRAGE_SDL)
 add_subdirectory(sdl)
 add_subdirectory(opengl)
 endif()

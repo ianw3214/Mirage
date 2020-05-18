@@ -51,9 +51,7 @@ Application::Application(const WindowConfig& config) {
     ApplicationManager::SetApplication(this);
 
     // TODO: Perhaps there can be a separate init for core systems vs gameplay systems
-    m_states->PushState(config.initialState());
-
-    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    m_states->PushState(config.initialState());    
 }
 
 Application::~Application() {
@@ -70,9 +68,10 @@ void Application::Run() {
     while(m_running) {
         m_renderer->Clear(0.f, 0.f, 0.f);
 
-        m_window->Update();
+        m_window->StartFrame();
         m_input->Update();
         m_states->Update();
+        m_window->EndFrame();
 
         if (m_input->WindowClosed()) {
             WindowClose();

@@ -2,6 +2,7 @@
 
 #include "graphics/graphics.hpp"
 #include "GL/glew.h"
+#include <imgui.h>
 
 // TODO: Custom keycodes so no need to include SDL
 #include <SDL2/SDL.h>
@@ -80,6 +81,14 @@ public:
 
         Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain1->GetModel(), Mirage::Colours::RED);
         Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain2->GetModel(), Mirage::Colours::RED);
+
+        {
+            ImGui::Begin("Hello world");
+            ImGui::Text("This is some useful text.");
+            // ImGui::SameLine();
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            ImGui::End();
+        }
     }
 private:
     OBJLoader loader;
