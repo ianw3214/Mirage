@@ -19,6 +19,11 @@ public:
     void SetTarget(Vec3f pos) { m_cameraTarget = glm::vec3(pos.x, pos.y, pos.z); }
     void SetTarget(glm::vec3 pos) { m_cameraTarget = pos; }
 
+    glm::vec3 GetPosition() const { return m_cameraPos; }
+    float GetX() const { return m_cameraPos.x; }
+    float GetY() const { return m_cameraPos.y; }
+    float GetZ() const { return m_cameraPos.z; }
+
     glm::mat4 GetViewMatrix() const
     {
         return glm::lookAt(m_cameraPos, m_cameraTarget, glm::vec3(0.f, 1.f, 0.f));

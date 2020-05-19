@@ -64,7 +64,7 @@ void Renderer::DrawModel(ModelRef modelRef, const Colour& colour)
     Reference<Camera> camera = ApplicationManager::GetCamera();
 
     glm::mat4 model = glm::mat4(1.f);
-    // Fore some reason we do this in reverse order? normally want to translate first
+    // column major so we translate first
     model = glm::translate(model, modelRef->GetPosition().Get());
     // TODO: Implement rotate
     // model = glm::rotate(model, angle, glm::vec3(0.f, 0.f, 1.f));
@@ -72,9 +72,11 @@ void Renderer::DrawModel(ModelRef modelRef, const Colour& colour)
     // glm::mat4 projection = glm::ortho(-8.f, 8.f, -6.f, 6.f, -10.f, 100.f);
     glm::mat4 view = camera->GetViewMatrix();
     glm::mat4 projection = camera->GetProjectionMatrix();
-    glm::mat4 transform = projection * view * model;
 
-    m_impl->m_transformShader->setUniformMat4("transform", glm::value_ptr(transform));
+    m_impl->m_transformShader->setUniformMat4("model", glm::value_ptr(model));
+    m_impl->m_transformShader->setUniformMat4("view", glm::value_ptr(view));
+    m_impl->m_transformShader->setUniformMat4("projection", glm::value_ptr(projection));
+    m_impl->m_transformShader->setUniform3f("u_Camera", camera->GetX(), camera->GetY(), camera->GetZ());
     m_impl->m_transformShader->setUniform4f("u_Colour", colour.r, colour.g, colour.b, 1.f);
     m_impl->m_transformShader->bind();
 

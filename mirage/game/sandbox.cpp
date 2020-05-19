@@ -75,7 +75,7 @@ public:
         }
 
         ModelRef model = loader.getModel("res/test.obj");
-        model->SetPosition(0.f, 0.f, 0.f);
+        model->SetPosition(0.f, 1.f, 0.f);
         model->SetScale(1.f);
         Mirage::ApplicationManager::GetRenderer()->DrawModel(model, Mirage::Colours::WHITE);
 
