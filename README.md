@@ -26,7 +26,7 @@
   - [x] Remove polymorphism from Application class?
 - [x] Remove two project setup (too many headaches)
 - [ ] Quaternions (yay!)
-- [ ] Lighting
+- [x] Lighting
 - [x] Setup ImGui
   - [ ] ImGui text input not working
   - [ ] Basic core engine info ImGui window
@@ -40,7 +40,7 @@
 - [ ] Character in game
   - [x] Character controller (movement)
   - [x] Character controller (camera rotation)
-  - [ ] Camera rotation in up/down axis as well
+  - [x] Camera rotation in up/down axis as well
   - [ ] Character moves with terrain (not necessarily physics based)
 - [ ] Entity system
 

@@ -17,10 +17,13 @@ public:
         terrain2 = new Terrain(0, 1);
 
         m_playerPos = Vec3f{0.f, 0.f, 0.f};
-        m_angle = 0.f;
+        m_angleH = 0.f;
+        m_angleV = 0.1f;
         m_movingCamera = false;
-        m_cameraMoveStartAngle = 0.f;
+        m_cameraMoveStartAngleH = 0.f;
+        m_cameraMoveStartAngleV = 0.1f;
         m_cameraMoveStartX = 0;
+        m_cameraMoveStartY = 0;
     }
     void Shutdown() {
 
@@ -28,30 +31,31 @@ public:
     void Update() {
         if (Mirage::ApplicationManager::GetInput()->KeyPressed(SDL_SCANCODE_W))
         {
-            // m_playerPos.z -= 0.01f;
-            m_playerPos.x -= std::sin(m_angle) * 0.01f;
-            m_playerPos.z -= std::cos(m_angle) * 0.01f;
+            m_playerPos.x -= std::sin(m_angleH) * 0.01f;
+            m_playerPos.z -= std::cos(m_angleH) * 0.01f;
         }
         if (Mirage::ApplicationManager::GetInput()->KeyPressed(SDL_SCANCODE_S))
         {
-            m_playerPos.x += std::sin(m_angle) * 0.01f;
-            m_playerPos.z += std::cos(m_angle) * 0.01f;
+            m_playerPos.x += std::sin(m_angleH) * 0.01f;
+            m_playerPos.z += std::cos(m_angleH) * 0.01f;
         }
         if (Mirage::ApplicationManager::GetInput()->KeyPressed(SDL_SCANCODE_D))
         {
-            m_playerPos.x += std::sin(m_angle + 1.57079632679f) * 0.01f;
-            m_playerPos.z += std::cos(m_angle + 1.57079632679f) * 0.01f;
+            m_playerPos.x += std::sin(m_angleH + 1.57079632679f) * 0.01f;
+            m_playerPos.z += std::cos(m_angleH + 1.57079632679f) * 0.01f;
         }
         if (Mirage::ApplicationManager::GetInput()->KeyPressed(SDL_SCANCODE_A))
         {
-            m_playerPos.x += std::sin(m_angle - 1.57079632679f) * 0.01f;
-            m_playerPos.z += std::cos(m_angle - 1.57079632679f) * 0.01f;
+            m_playerPos.x += std::sin(m_angleH - 1.57079632679f) * 0.01f;
+            m_playerPos.z += std::cos(m_angleH - 1.57079632679f) * 0.01f;
         }
         if (Mirage::ApplicationManager::GetInput()->LeftMouseClicked())
         {
             m_movingCamera = true;
-            m_cameraMoveStartAngle = m_angle;
+            m_cameraMoveStartAngleH = m_angleH;
+            m_cameraMoveStartAngleV = m_angleV;
             m_cameraMoveStartX = Mirage::ApplicationManager::GetInput()->GetMouseX();
+            m_cameraMoveStartY = Mirage::ApplicationManager::GetInput()->GetMouseY();
         }
         if (Mirage::ApplicationManager::GetInput()->LeftMouseReleased())
         {
@@ -61,15 +65,19 @@ public:
         if (m_movingCamera)
         {
             constexpr float sensitivity = 0.005f;
-            int offset = m_cameraMoveStartX - Mirage::ApplicationManager::GetInput()->GetMouseX();
-            m_angle = m_cameraMoveStartAngle + offset * sensitivity;
+            int offsetX = m_cameraMoveStartX - Mirage::ApplicationManager::GetInput()->GetMouseX();
+            m_angleH = m_cameraMoveStartAngleH + offsetX * sensitivity;
+            int offsetY = m_cameraMoveStartY - Mirage::ApplicationManager::GetInput()->GetMouseY();
+            m_angleV = m_cameraMoveStartAngleV - offsetY * sensitivity;
+            if (m_angleV > 1.57) m_angleV = 1.57;
+            if (m_angleV < -1.57) m_angleV = -1.57;
         }
 
         {   // Update the camera
             Vec3f cameraPos = m_playerPos;
-            cameraPos.x += std::sin(m_angle) * 5.f;
-            cameraPos.y += 3.f;    // Always 3m above ground
-            cameraPos.z += std::cos(m_angle) * 5.f;
+            cameraPos.x += (std::sin(m_angleH) * (std::cos(m_angleV))) * 10.f;
+            cameraPos.y += std::sin(m_angleV) * 10.f;    // Always 3m above ground
+            cameraPos.z += (std::cos(m_angleH) * (std::cos(m_angleV))) * 10.f;
             Mirage::ApplicationManager::GetCamera()->SetPosition(cameraPos);
             Mirage::ApplicationManager::GetCamera()->SetTarget(m_playerPos);
         }
@@ -98,10 +106,13 @@ private:
     // Camera adjusting code
     // Fix camera up/down angle for now
     Vec3f m_playerPos;
-    float m_angle;
+    float m_angleH;
+    float m_angleV;
     bool m_movingCamera;
-    float m_cameraMoveStartAngle;
+    float m_cameraMoveStartAngleH;
+    float m_cameraMoveStartAngleV;
     int m_cameraMoveStartX;
+    int m_cameraMoveStartY;
 };
 
 Mirage::WindowConfig Mirage::GetConfiguration()
