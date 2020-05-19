@@ -88,7 +88,7 @@ GLuint Shader::compileShader(GLenum type, const std::string& source) {
 		if (length > 0) {
 			char * message = (char*)alloca(length * sizeof(char));
 			glGetShaderInfoLog(id, length, &length, message);
-			std::cout << "Shader compilation failed:\n" << message << std::endl;
+			// TODO: Better error message here
 		}
 	}
 

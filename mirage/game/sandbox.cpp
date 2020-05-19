@@ -79,8 +79,8 @@ public:
         model->SetScale(1.f);
         Mirage::ApplicationManager::GetRenderer()->DrawModel(model, Mirage::Colours::WHITE);
 
-        Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain1->GetModel(), Mirage::Colours::RED);
-        Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain2->GetModel(), Mirage::Colours::RED);
+        Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain1->GetModel(), Mirage::Colours::GREEN);
+        Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain2->GetModel(), Mirage::Colours::GREEN);
 
         {
             ImGui::Begin("Hello world");
