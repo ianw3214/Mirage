@@ -69,8 +69,8 @@ public:
             m_angleH = m_cameraMoveStartAngleH + offsetX * sensitivity;
             int offsetY = m_cameraMoveStartY - Mirage::ApplicationManager::GetInput()->GetMouseY();
             m_angleV = m_cameraMoveStartAngleV - offsetY * sensitivity;
-            if (m_angleV > 1.57) m_angleV = 1.57;
-            if (m_angleV < -1.57) m_angleV = -1.57;
+            if (m_angleV > 1.57f) m_angleV = 1.57f;
+            if (m_angleV < -1.57f) m_angleV = -1.57f;
         }
 
         {   // Update the camera
@@ -85,10 +85,10 @@ public:
         ModelRef model = loader.getModel("res/test.obj");
         model->SetPosition(0.f, 1.f, 0.f);
         model->SetScale(1.f);
-        Mirage::ApplicationManager::GetRenderer()->DrawModel(model, Mirage::Colours::WHITE);
+        Mirage::ApplicationManager::GetRenderer()->DrawModel(model);
 
-        Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain1->GetModel(), Mirage::Colours::GREEN);
-        Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain2->GetModel(), Mirage::Colours::GREEN);
+        Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain1->GetModel());
+        Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain2->GetModel());
 
         {
             ImGui::Begin("Hello world");

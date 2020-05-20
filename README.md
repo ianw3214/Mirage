@@ -3,8 +3,6 @@
 ## ENGINE TASKS
 
 - [x] Setup renderer
-- [ ] Refactor subsystems - make architecture more consistent
-  - [ ] Experiment with using polymorphism
 - [ ] Misc. utilities
   - [x] Common structs
   - [ ] Math utilities
@@ -18,7 +16,7 @@
   - [x] Make renderer more accessible from game
 - [x] Model loading
   - [x] Separate model class
-  - [ ] Model textures
+  - [x] Model textures
 - [x] Proper rendering w/ transforms
   - [x] Move transform setting code into model code
   - [x] Camera class  
@@ -30,6 +28,8 @@
 - [x] Setup ImGui
   - [ ] ImGui text input not working
   - [ ] Basic core engine info ImGui window
+- [ ] Resource system
+  - [ ] Texture resource
 
 ## GAME TASKS
 

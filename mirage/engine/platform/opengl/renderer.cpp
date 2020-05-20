@@ -12,6 +12,7 @@ using namespace Mirage;
 struct Renderer::Impl {
     Shader * m_basicShader;
     Shader * m_transformShader;
+    Shader * m_textureTransformShader;
 };
 
 Renderer::Renderer()
@@ -21,6 +22,7 @@ Renderer::Renderer()
     m_impl->m_basicShader->setUniform4f("u_Colour", 1.f, 0.f, 1.f, 1.f);
     m_impl->m_transformShader = new Shader("res/shaders/transform.glsl", "res/shaders/frag.glsl");
     m_impl->m_transformShader->setUniform4f("u_Colour", 1.f, 0.f, 1.f, 1.f);
+    m_impl->m_textureTransformShader = new Shader("res/shaders/transform.glsl", "res/shaders/frag_texture.glsl");
 
     // glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     glEnable(GL_DEPTH_TEST);
@@ -73,12 +75,21 @@ void Renderer::DrawModel(ModelRef modelRef, const Colour& colour)
     glm::mat4 view = camera->GetViewMatrix();
     glm::mat4 projection = camera->GetProjectionMatrix();
 
-    m_impl->m_transformShader->setUniformMat4("model", glm::value_ptr(model));
-    m_impl->m_transformShader->setUniformMat4("view", glm::value_ptr(view));
-    m_impl->m_transformShader->setUniformMat4("projection", glm::value_ptr(projection));
-    m_impl->m_transformShader->setUniform3f("u_Camera", camera->GetX(), camera->GetY(), camera->GetZ());
-    m_impl->m_transformShader->setUniform4f("u_Colour", colour.r, colour.g, colour.b, 1.f);
-    m_impl->m_transformShader->bind();
+    Shader * shader = m_impl->m_transformShader;
+    if (modelRef->GetTexture()) {
+        shader = m_impl->m_textureTransformShader;
+        modelRef->GetTexture()->bind();
+    }
+
+    shader->setUniformMat4("model", glm::value_ptr(model));
+    shader->setUniformMat4("view", glm::value_ptr(view));
+    shader->setUniformMat4("projection", glm::value_ptr(projection));
+    shader->setUniform3f("u_Camera", camera->GetX(), camera->GetY(), camera->GetZ());
+    shader->setUniform4f("u_Colour", colour.r, colour.g, colour.b, 1.f);
+    shader->bind();
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     modelRef->va.bind();
     modelRef->ib.bind();

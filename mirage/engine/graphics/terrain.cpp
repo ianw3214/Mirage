@@ -27,8 +27,8 @@ void Terrain::GenerateTerrain()
             normals[vertexIndex * 3] = 0;
             normals[vertexIndex * 3 + 1] = 1;
             normals[vertexIndex * 3 + 2] = 0;
-            textures[vertexIndex * 2] = (float) j / ((float) kVertexCount - 1);
-            textures[vertexIndex * 2 + 1] = (float) i / ((float) kVertexCount - 1);
+            textures[vertexIndex * 2] = ((float) j / ((float) kVertexCount - 1)) * 20.f / 2.f;
+            textures[vertexIndex * 2 + 1] = ((float) i / ((float) kVertexCount - 1)) * 20.f / 2.f;
             vertexIndex++;
         }
     }
@@ -72,4 +72,5 @@ void Terrain::GenerateTerrain()
 		vb_tex_layout.pushFloat(2);
 		m_model->va.addBuffer(vb_tex, vb_tex_layout, 2);
 	}
+    m_model->SetTexture("res/grass.png");
 }
