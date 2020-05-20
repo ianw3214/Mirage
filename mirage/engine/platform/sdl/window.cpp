@@ -67,6 +67,7 @@ void Window::Create(const WindowConfig& config) {
         exit(1);
     }
 
+    #ifdef MIRAGE_EDITOR
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -80,22 +81,37 @@ void Window::Create(const WindowConfig& config) {
     ImGui_ImplSDL2_InitForOpenGL(m_impl->window, m_impl->context);
     ImGui_ImplOpenGL3_Init(glsl_version);
     #endif
+    #endif
 }
 
 void Window::StartFrame() {
+    #ifdef MIRAGE_EDITOR
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(m_impl->window);
     ImGui::NewFrame();
 
-    // ImGui::ShowDemoWindow();
+    {   // Base engine debug window
+        static bool sRenderWireframe = false;
+
+        ImGui::Begin("Engine");
+        // ImGui::SameLine();
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::Checkbox("Wireframe render mode", &sRenderWireframe);
+        ImGui::End();
+
+        glPolygonMode(GL_FRONT_AND_BACK, sRenderWireframe ? GL_LINE : GL_FILL);
+    }
+    #endif
 }
 
 void Window::EndFrame() {
+    #ifdef MIRAGE_EDITOR
     // Rendering
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui::Render();
     glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    #endif
 }
 
 void Window::SwapBuffer() {

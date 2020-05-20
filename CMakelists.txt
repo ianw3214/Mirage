@@ -5,6 +5,8 @@ project(Mirage)
 set(Mirage_VERSION_MAJOR 1)
 set(Mirage_VERSION_MINOR 0)
 
+option(MIRAGE_EDITOR "Enable game editor" ON)
+
 add_executable(Mirage)
 
 target_link_libraries(Mirage Opengl32.lib)
@@ -20,3 +22,5 @@ endif()
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Mirage)
 
 add_subdirectory(mirage)
+
+unset(MIRAGE_EDITOR CACHE)

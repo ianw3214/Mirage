@@ -89,14 +89,6 @@ public:
 
         Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain1->GetModel());
         Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain2->GetModel());
-
-        {
-            ImGui::Begin("Hello world");
-            ImGui::Text("This is some useful text.");
-            // ImGui::SameLine();
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::End();
-        }
     }
 private:
     OBJLoader loader;

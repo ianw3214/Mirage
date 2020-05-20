@@ -16,4 +16,6 @@ target_sources(Mirage PRIVATE
 
 target_sources(Mirage PRIVATE renderer.cpp)
 
+if (MIRAGE_EDITOR)
 add_subdirectory(imgui)
+endif()

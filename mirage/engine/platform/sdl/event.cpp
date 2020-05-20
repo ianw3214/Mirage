@@ -30,7 +30,6 @@ Mirage::Input::~Input() {
 }
 
 void Mirage::Input::Update() {
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
     // Clear the previous input state first
     impl->Clear();
     SDL_Event e;
@@ -38,7 +37,9 @@ void Mirage::Input::Update() {
         if (e.type == SDL_QUIT || (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_CLOSE)) {
             impl->windowClosed = true;
         }
+        #ifdef MIRAGE_EDITOR
         ImGui_ImplSDL2_ProcessEvent(&e);
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
         if (!io.WantCaptureMouse)
         {
             if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
@@ -52,6 +53,14 @@ void Mirage::Input::Update() {
         {
             // TODO: Implement
         }
+        #else
+        if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
+            impl->leftMouseClicked = true;
+        }
+        if (e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
+            impl->leftMouseReleased = true;
+        }
+        #endif
     }
     SDL_GetMouseState(&(impl->mouseX), &(impl->mouseY));
 }

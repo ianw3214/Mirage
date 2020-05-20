@@ -27,9 +27,10 @@
 - [x] Lighting
 - [x] Setup ImGui
   - [ ] ImGui text input not working
-  - [ ] Basic core engine info ImGui window
+  - [x] Basic core engine info ImGui window
 - [ ] Resource system
   - [ ] Texture resource
+- [ ] Remove unnecessary namespaces
 
 ## GAME TASKS
 

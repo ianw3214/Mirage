@@ -2,4 +2,6 @@ target_sources(Mirage PRIVATE
     window.cpp
     event.cpp)
 
+if (MIRAGE_EDITOR)
 add_subdirectory(imgui)
+endif()

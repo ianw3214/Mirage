@@ -1,3 +1,7 @@
+if (MIRAGE_EDITOR)
+target_compile_definitions(Mirage PRIVATE -DMIRAGE_EDITOR)
+endif()
+
 add_subdirectory(engine)
 add_subdirectory(game)
 
