@@ -66,7 +66,7 @@ Application::~Application() {
 
 void Application::Run() {
     while(m_running) {
-        m_renderer->Clear(0.f, 0.f, 0.f);
+        m_renderer->Clear();
 
         m_window->StartFrame();
         m_input->Update();

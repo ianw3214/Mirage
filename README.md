@@ -44,6 +44,8 @@
   - [x] Camera rotation in up/down axis as well
   - [ ] Character moves with terrain (not necessarily physics based)
 - [ ] Entity system
+- [x] Day night system
+  - [ ] Update shader lights as well
 
 ## ART TASKS
 

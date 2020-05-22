@@ -7,6 +7,12 @@
 // TODO: Custom keycodes so no need to include SDL
 #include <SDL2/SDL.h>
 
+#ifdef MIRAGE_EDITOR
+#include <imgui.h>
+#endif
+
+constexpr int ticksPerDay = 30000;
+
 class SandboxState : public Mirage::State {
 public:
     void Init() {
@@ -24,6 +30,8 @@ public:
         m_cameraMoveStartAngleV = 0.1f;
         m_cameraMoveStartX = 0;
         m_cameraMoveStartY = 0;
+
+        m_timeTick = 0;
     }
     void Shutdown() {
 
@@ -83,12 +91,28 @@ public:
         }
 
         ModelRef model = loader.getModel("res/test.obj");
-        model->SetPosition(0.f, 1.f, 0.f);
+        model->SetPosition(m_playerPos.x, m_playerPos.y + 1.f, m_playerPos.z);
         model->SetScale(1.f);
         Mirage::ApplicationManager::GetRenderer()->DrawModel(model);
 
         Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain1->GetModel());
         Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain2->GetModel());
+
+        // Maybe use a curve instead of direct lerp
+        // Update clear color for day/night time
+        float blue = static_cast<float>(std::abs(m_timeTick * 2 - ticksPerDay)) / static_cast<float>(ticksPerDay);
+        Mirage::ApplicationManager::GetRenderer()->ClearColour(0.f, blue * 2.f / 3.f, blue);
+        if (++m_timeTick > ticksPerDay)
+        {
+            m_timeTick = 0;
+        }
+        #ifdef MIRAGE_EDITOR
+        {
+            ImGui::Begin("Game");
+            ImGui::SliderInt("time of day", &m_timeTick, 0, ticksPerDay);
+            ImGui::End();
+        }
+        #endif
     }
 private:
     OBJLoader loader;
@@ -96,7 +120,6 @@ private:
     Mirage::Owned<Terrain> terrain2;
 
     // Camera adjusting code
-    // Fix camera up/down angle for now
     Vec3f m_playerPos;
     float m_angleH;
     float m_angleV;
@@ -105,6 +128,9 @@ private:
     float m_cameraMoveStartAngleV;
     int m_cameraMoveStartX;
     int m_cameraMoveStartY;
+
+    // Day/night cycle cause why not
+    int m_timeTick;
 };
 
 Mirage::WindowConfig Mirage::GetConfiguration()

@@ -13,6 +13,10 @@ struct Renderer::Impl {
     Shader * m_basicShader;
     Shader * m_transformShader;
     Shader * m_textureTransformShader;
+
+    float clear_r;
+    float clear_g;
+    float clear_b;
 };
 
 Renderer::Renderer()
@@ -24,13 +28,23 @@ Renderer::Renderer()
     m_impl->m_transformShader->setUniform4f("u_Colour", 1.f, 0.f, 1.f, 1.f);
     m_impl->m_textureTransformShader = new Shader("res/shaders/transform.glsl", "res/shaders/frag_texture.glsl");
 
-    // glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    m_impl->clear_r = 0.f;
+    m_impl->clear_g = 0.f;
+    m_impl->clear_b = 0.f;
+
     glEnable(GL_DEPTH_TEST);
 }
 
-void Renderer::Clear(float r, float g, float b)
+void Renderer::ClearColour(float r, float g, float b)
 {
-    glClearColor(r, g, b, 1.f);
+    m_impl->clear_r = r;
+    m_impl->clear_g = g;
+    m_impl->clear_b = b;
+}
+
+void Renderer::Clear()
+{
+    glClearColor(m_impl->clear_r, m_impl->clear_g, m_impl->clear_b, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

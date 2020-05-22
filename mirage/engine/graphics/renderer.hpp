@@ -9,7 +9,8 @@ namespace Mirage
     public:
         Renderer();
         
-        void Clear(float r, float g, float b);
+        void ClearColour(float r, float g, float b);
+        void Clear();
 
         void DrawQuad(float x, float y, float w, float h, const Colour& colour = Mirage::Colours::RED);
         void DrawModel(ModelRef model, const Colour& colour = Mirage::Colours::RED);
