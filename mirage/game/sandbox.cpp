@@ -2,13 +2,12 @@
 
 #include "graphics/graphics.hpp"
 #include "GL/glew.h"
-#include <imgui.h>
 
 // TODO: Custom keycodes so no need to include SDL
 #include <SDL2/SDL.h>
 
 #ifdef MIRAGE_EDITOR
-#include <imgui.h>
+#include <imgui-docking/imgui.h>
 #endif
 
 constexpr int ticksPerDay = 30000;

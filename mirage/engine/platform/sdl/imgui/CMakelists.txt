@@ -1,1 +1,3 @@
 target_sources(Mirage PRIVATE imgui_impl_sdl.h imgui_impl_sdl.cpp)
+
+target_sources(Mirage PRIVATE imgui_build.cpp)
