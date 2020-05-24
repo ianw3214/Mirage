@@ -21,4 +21,6 @@ private:
     //////////////////////////////////////////////////////////////
     // Utility functions
     void GenerateTerrain();
+    float GetHeight(int x, int z, unsigned char * localBuffer, int width, int height);
+    Vec3f CalculateNormal(int x, int z, unsigned char * localBuffer, int width, int height);
 };

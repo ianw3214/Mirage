@@ -31,7 +31,7 @@ public:
 
     glm::mat4 GetProjectionMatrix() const
     {
-        return glm::perspective(glm::radians(45.f), 8.f / 6.f, 0.01f, 100.f);
+        return glm::perspective(glm::radians(45.f), 8.f / 6.f, 0.01f, 200.f);
     }
 private:
     glm::vec3 m_cameraPos;

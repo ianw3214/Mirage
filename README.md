@@ -36,6 +36,9 @@
 
 - [x] Terrain setup
   - [x] Properly orient terrain + allow multiple terrain pieces
+  - [x] Heightmap
+    - [ ] Heightmap optimizations
+    - [ ] Don't use png for file storage
   - [ ] Terrain manager
   - [ ] Move to better folder location - graphicsUtils/graphicsToolbox
 - [ ] Character in game
