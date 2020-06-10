@@ -29,6 +29,19 @@ struct Vec3f
     }
 };
 
+struct Vec4f 
+{
+    float x;
+    float y;
+    float z;
+    float w;
+
+    glm::vec4 Get() const
+    {
+        return glm::vec4(x, y, z, w);
+    }
+};
+
 namespace Mirage
 {
     struct Colour

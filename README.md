@@ -31,9 +31,6 @@
 - [ ] Resource system
   - [ ] Texture resource
 - [ ] Remove unnecessary namespaces
-
-## GAME TASKS
-
 - [x] Terrain setup
   - [x] Properly orient terrain + allow multiple terrain pieces
   - [x] Heightmap
@@ -41,6 +38,15 @@
     - [ ] Don't use png for file storage
   - [ ] Terrain manager
   - [ ] Move to better folder location - graphicsUtils/graphicsToolbox
+  - [ ] [Get height of terrain](https://www.youtube.com/watch?v=6E2zjfzMs7c)
+  - [ ] Raycast onto terrain
+- [ ] Fog system
+- [ ] Skybox
+- [ ] Integrate console system
+  - [ ] Command system
+
+## GAME TASKS
+
 - [ ] Character in game
   - [x] Character controller (movement)
   - [x] Character controller (camera rotation)
@@ -49,6 +55,18 @@
 - [ ] Entity system
 - [x] Day night system
   - [ ] Update shader lights as well
+
+## EDITOR TASKS
+
+- [ ] Terrain editor
+  - [ ] Ray cast from mouse to terrain
+  - [ ] Draw circle around mouse position on terrain
+
+## MISC PROGRAMMING TASKS
+
+- [ ] Clean up namespace clutter
+- [ ] Expose window from engine (width/height, etc...)
+- [ ] Get rid of smart pointer ( I HATE SMART POINTERS )
 
 ## ART TASKS
 

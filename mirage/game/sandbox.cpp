@@ -112,6 +112,62 @@ public:
             ImGui::End();
         }
         #endif
+
+        {   // Raycasting? :o
+            float mouseX = Mirage::ApplicationManager::GetInput()->GetMouseX();
+            float mouseY = Mirage::ApplicationManager::GetInput()->GetMouseY();
+            // Normalize x/y coordinates
+            // TODO: Get window width/height from engine
+            mouseX = 2.f * mouseX / 1280.f - 1.f;
+            mouseY = 2.f * mouseY / 720.f - 1.f;
+            glm::vec4 clipCoords(mouseX, mouseY, -1.f, 1.f);
+            // Clip coordinates to eye space coordinates
+            glm::vec4 eyeCoords = glm::inverse(Mirage::ApplicationManager::GetCamera()->GetProjectionMatrix()) * clipCoords;
+            eyeCoords.z = -1.f;
+            eyeCoords.w = 0.f;
+            // Eye space coords to world coords
+            glm::vec4 worldCoords = glm::inverse(Mirage::ApplicationManager::GetCamera()->GetViewMatrix()) * eyeCoords;
+            glm::vec3 ray = glm::normalize(glm::vec3(worldCoords));
+
+            #ifdef MIRAGE_EDITOR
+            {
+                ImGui::Begin("Ray test");
+                ImGui::Text("%f, %f, %f", ray.x, ray.y, ray.z);
+                ImGui::End();
+            }
+            #endif
+
+            /*
+            // Actually convert the ray to terrain intersection point
+            auto fGetPointOnRay = [](glm::vec3 ray, float distance){
+                glm::vec3 cam_pos = Mirage::ApplicationManager::GetCamera()->GetPosition();
+                glm::vec3 scaled_ray = ray * distance;
+                return cam_pos + scaled_ray;
+            };
+
+            auto fIsUnderground = [&](glm::vec3 target){
+                // Just test 1 terrain for now
+            };
+
+            auto fIntersectionInRange = [&fGetPointOnRay](float start, float finish, glm::vec3 ray){
+                glm::vec3 startPoint = fGetPointOnRay(ray, start);
+                glm::vec3 endPoint = fGetPointOnRay(ray, finish);
+            };
+
+            auto fBinarySearch = [&fGetPointOnRay, &fIntersectionInRange](int count, float start, float finish, glm::vec3 ray){
+                float half = start + ((finish - start) / 2.f);
+                if (count >= 200)   // This is the max recursion count
+                {
+                    return fGetPointOnRay(ray, half);
+                }
+                if ()
+                return glm::vec3();
+            };
+
+            glm::vec3 point = fBinarySearch(0, 0.f, 600.f, ray);
+            */
+            
+        }
     }
 private:
     OBJLoader loader;
