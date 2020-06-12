@@ -2,6 +2,8 @@
 
 #include "model.hpp"
 
+#include <vector>
+
 class Terrain
 {
 public:
@@ -11,9 +13,13 @@ public:
     Terrain(int x = 0, int y = 0);
 
     ModelRef GetModel() { return m_model; }
+    float GetHeightOfTerrain(float worldX, float worldY);
 private:
     float m_x;
     float m_y;
+    // Store the heights so we don't need to read the heightmap all the time
+    // TODO: Can probably just use single dimension vector
+    std::vector<std::vector<float>> m_heights;
 
     Mirage::Owned<RawModel> m_model;
     // TODO: Texture

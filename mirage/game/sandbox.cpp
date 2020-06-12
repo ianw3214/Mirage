@@ -132,7 +132,10 @@ public:
             #ifdef MIRAGE_EDITOR
             {
                 ImGui::Begin("Ray test");
+                ImGui::Text("Ray");
                 ImGui::Text("%f, %f, %f", ray.x, ray.y, ray.z);
+                ImGui::Text("Terrain height");
+                ImGui::Text("%f", terrain1->GetHeightOfTerrain(-m_playerPos.x, -m_playerPos.z));
                 ImGui::End();
             }
             #endif

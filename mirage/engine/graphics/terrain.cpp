@@ -15,15 +15,66 @@ Terrain::Terrain(int x, int y)
     GenerateTerrain();
 }
 
+float barryCentric(Vec3f p1, Vec3f p2, Vec3f p3, Vec2f pos)
+{
+    float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
+    float l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;
+    float l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
+    float l3 = 1.f - l1 - l2;
+    return l1 * p1.y + l2 * p2.y + l3 * p3.y;
+}
+
+float Terrain::GetHeightOfTerrain(float worldX, float worldY)
+{
+    float terrainX = worldX - m_x;
+    float terrainY = worldY - m_y;
+    float gridSquareSize = kSize / static_cast<float>(m_heights.size() - 1);
+    int gridX = static_cast<int>(terrainX / gridSquareSize);
+    int gridY = static_cast<int>(terrainY / gridSquareSize);
+    if (gridX >= m_heights.size() - 1 || gridY >= m_heights.size() - 1 || gridX < 0 || gridY < 0)
+    {
+        return 0.f;
+    }
+    float xCoord = terrainX - gridSquareSize * gridX;
+    float yCoord = terrainY - gridSquareSize * gridY;
+    xCoord /= gridSquareSize;
+    yCoord /= gridSquareSize;
+    float result = 0.f;
+    // Top left triangle
+    if (xCoord <= 1 - yCoord)
+    {
+        Vec3f p1{0, m_heights[gridX][gridY], 0};
+        Vec3f p2{1, m_heights[gridX + 1][gridY], 0};
+        Vec3f p3{0, m_heights[gridX][gridY + 1], 1};
+        Vec2f pos{xCoord, yCoord};
+        result = barryCentric(p1, p2, p3, pos);
+    }
+    // Bottom right triangle
+    else
+    {
+        Vec3f p1{1, m_heights[gridX + 1][gridY], 0};
+        Vec3f p2{1, m_heights[gridX + 1][gridY + 1], 1};
+        Vec3f p3{0, m_heights[gridX][gridY + 1], 1};
+        Vec2f pos{xCoord, yCoord};
+        result = barryCentric(p1, p2, p3, pos);
+    }
+    return result;
+}
+
 void Terrain::GenerateTerrain()
 {
-
     // Heightmap loading
     stbi_set_flip_vertically_on_load(1);
     int width, height, bitsPerPixel;
 	unsigned char * localBuffer = stbi_load("res/heightmap.png", &width, &height, &bitsPerPixel, 4);
 
     int vertexCount = height;
+    m_heights.clear();
+    m_heights.resize(kVertexCount);
+    for (auto& row : m_heights)
+    {
+        row.resize(kVertexCount);
+    }
 
     constexpr int count = kVertexCount * kVertexCount;
     float * vertices = new float[count * 3];
@@ -37,8 +88,10 @@ void Terrain::GenerateTerrain()
         for (int j = 0; j < kVertexCount; ++j)
         {
             Vec3f normal = CalculateNormal(j, i, localBuffer, width, height);
+            float terrain_height = GetHeight(j, i, localBuffer, width, height);
+            m_heights[j][i] = terrain_height;
             vertices[vertexIndex * 3] = -(float)j / ((float) kVertexCount - 1) * kSize + m_x;
-            vertices[vertexIndex * 3 + 1] = GetHeight(j, i, localBuffer, width, height);
+            vertices[vertexIndex * 3 + 1] = terrain_height;
             vertices[vertexIndex * 3 + 2] = -(float)i / ((float)kVertexCount - 1) * kSize + m_y;
             normals[vertexIndex * 3] = normal.x;
             normals[vertexIndex * 3 + 1] = normal.y;
