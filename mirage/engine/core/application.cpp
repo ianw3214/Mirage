@@ -68,8 +68,8 @@ void Application::Run() {
     while(m_running) {
         m_renderer->Clear();
 
-        m_window->StartFrame();
         m_input->Update();
+        m_window->StartFrame();
         m_states->Update();
         m_window->EndFrame();
 

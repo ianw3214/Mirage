@@ -63,6 +63,7 @@ void Mirage::Input::Update() {
         #endif
     }
     SDL_GetMouseState(&(impl->mouseX), &(impl->mouseY));
+    // SDL 
 }
 
 bool Mirage::Input::WindowClosed() {
@@ -77,14 +78,14 @@ bool Mirage::Input::LeftMouseReleased() {
     return impl->leftMouseReleased;
 }
 
-int Mirage::Input::GetMouseX() const
+float Mirage::Input::GetMouseX() const
 {
-    return impl->mouseX;
+    return static_cast<float>(impl->mouseX);
 }
 
-int Mirage::Input::GetMouseY() const
+float Mirage::Input::GetMouseY() const
 {
-    return impl->mouseY;
+    return static_cast<float>(impl->mouseY);
 }
 
 bool Mirage::Input::KeyPressed(int keycode) {

@@ -39,7 +39,8 @@
   - [ ] Terrain manager
   - [ ] Move to better folder location - graphicsUtils/graphicsToolbox
   - [x] [Get height of terrain](https://www.youtube.com/watch?v=6E2zjfzMs7c)
-  - [ ] [Raycast onto terrain](https://www.dropbox.com/s/qkslys3p3xzh8av/MousePicker%20Code.txt?dl=0)
+  - [x] [Raycast onto terrain](https://www.dropbox.com/s/qkslys3p3xzh8av/MousePicker%20Code.txt?dl=0)
+    - [ ] Raycast working on multiple terrains
 - [ ] Fog system
 - [ ] Skybox
 - [ ] Integrate console system

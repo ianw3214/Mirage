@@ -19,7 +19,7 @@ public:
         loader.loadModel("res/test.obj");
 
         terrain1 = new Terrain(0, 0);
-        terrain2 = new Terrain(0, 1);
+        terrain2 = new Terrain(0, -1);
 
         m_playerPos = Vec3f{0.f, 0.f, 0.f};
         m_angleH = 0.f;
@@ -72,9 +72,9 @@ public:
         if (m_movingCamera)
         {
             constexpr float sensitivity = 0.005f;
-            int offsetX = m_cameraMoveStartX - Mirage::ApplicationManager::GetInput()->GetMouseX();
+            float offsetX = m_cameraMoveStartX - Mirage::ApplicationManager::GetInput()->GetMouseX();
             m_angleH = m_cameraMoveStartAngleH + offsetX * sensitivity;
-            int offsetY = m_cameraMoveStartY - Mirage::ApplicationManager::GetInput()->GetMouseY();
+            float offsetY = m_cameraMoveStartY - Mirage::ApplicationManager::GetInput()->GetMouseY();
             m_angleV = m_cameraMoveStartAngleV - offsetY * sensitivity;
             if (m_angleV > 1.57f) m_angleV = 1.57f;
             if (m_angleV < -1.57f) m_angleV = -1.57f;
@@ -119,7 +119,8 @@ public:
             // Normalize x/y coordinates
             // TODO: Get window width/height from engine
             mouseX = 2.f * mouseX / 1280.f - 1.f;
-            mouseY = 2.f * mouseY / 720.f - 1.f;
+            // In openGL y is positive in the up direction so it must be reversed
+            mouseY = -(2.f * mouseY / 720.f - 1.f);
             glm::vec4 clipCoords(mouseX, mouseY, -1.f, 1.f);
             // Clip coordinates to eye space coordinates
             glm::vec4 eyeCoords = glm::inverse(Mirage::ApplicationManager::GetCamera()->GetProjectionMatrix()) * clipCoords;
@@ -129,18 +130,6 @@ public:
             glm::vec4 worldCoords = glm::inverse(Mirage::ApplicationManager::GetCamera()->GetViewMatrix()) * eyeCoords;
             glm::vec3 ray = glm::normalize(glm::vec3(worldCoords));
 
-            #ifdef MIRAGE_EDITOR
-            {
-                ImGui::Begin("Ray test");
-                ImGui::Text("Ray");
-                ImGui::Text("%f, %f, %f", ray.x, ray.y, ray.z);
-                ImGui::Text("Terrain height");
-                ImGui::Text("%f", terrain1->GetHeightOfTerrain(-m_playerPos.x, -m_playerPos.z));
-                ImGui::End();
-            }
-            #endif
-
-            /*
             // Actually convert the ray to terrain intersection point
             auto fGetPointOnRay = [](glm::vec3 ray, float distance){
                 glm::vec3 cam_pos = Mirage::ApplicationManager::GetCamera()->GetPosition();
@@ -150,26 +139,58 @@ public:
 
             auto fIsUnderground = [&](glm::vec3 target){
                 // Just test 1 terrain for now
+                float height = terrain1->GetHeightOfTerrain(target.x, target.z);
+                return target.y < height;
             };
 
-            auto fIntersectionInRange = [&fGetPointOnRay](float start, float finish, glm::vec3 ray){
+            auto fIntersectionInRange = [&fGetPointOnRay, &fIsUnderground](float start, float finish, glm::vec3 ray){
                 glm::vec3 startPoint = fGetPointOnRay(ray, start);
                 glm::vec3 endPoint = fGetPointOnRay(ray, finish);
+                return !fIsUnderground(startPoint) && fIsUnderground(endPoint);
             };
 
-            auto fBinarySearch = [&fGetPointOnRay, &fIntersectionInRange](int count, float start, float finish, glm::vec3 ray){
+            std::function<glm::vec3(int,float, float, glm::vec3)> fBinarySearch;
+            fBinarySearch = [&fGetPointOnRay, &fIntersectionInRange, &fBinarySearch](int count, float start, float finish, glm::vec3 ray){
                 float half = start + ((finish - start) / 2.f);
                 if (count >= 200)   // This is the max recursion count
                 {
                     return fGetPointOnRay(ray, half);
                 }
-                if ()
-                return glm::vec3();
+                if (fIntersectionInRange(start, half, ray))
+                {
+                    return fBinarySearch(count + 1, start, half, ray);
+                }
+                else
+                {
+                    return fBinarySearch(count + 1, half, finish, ray);
+                }
             };
 
             glm::vec3 point = fBinarySearch(0, 0.f, 600.f, ray);
-            */
-            
+
+            ModelRef model = loader.getModel("res/test.obj");
+            model->SetPosition(point.x, point.y, point.z);
+            model->SetScale(0.3f);
+            Mirage::ApplicationManager::GetRenderer()->DrawModel(model);
+
+            #ifdef MIRAGE_EDITOR
+            {
+                glm::vec3 cam_pos = Mirage::ApplicationManager::GetCamera()->GetPosition();
+                
+                ImGui::Begin("Ray test");
+                ImGui::Text("Mouse pos");
+                ImGui::Text("%f, %f", mouseX, mouseY);
+                ImGui::Text("Camera pos");
+                ImGui::Text("%f, %f, %f", cam_pos.x, cam_pos.y, cam_pos.z);
+                ImGui::Text("Ray");
+                ImGui::Text("%f, %f, %f", ray.x, ray.y, ray.z);
+                ImGui::Text("Terrain height");
+                ImGui::Text("%f", terrain1->GetHeightOfTerrain(m_playerPos.x, m_playerPos.z));
+                ImGui::Text("Ray Hit");
+                ImGui::Text("%f, %f, %f", point.x, point.y, point.z);
+                ImGui::End();
+            }
+            #endif
         }
     }
 private:
@@ -184,8 +205,8 @@ private:
     bool m_movingCamera;
     float m_cameraMoveStartAngleH;
     float m_cameraMoveStartAngleV;
-    int m_cameraMoveStartX;
-    int m_cameraMoveStartY;
+    float m_cameraMoveStartX;
+    float m_cameraMoveStartY;
 
     // Day/night cycle cause why not
     int m_timeTick;

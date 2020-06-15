@@ -90,9 +90,9 @@ void Terrain::GenerateTerrain()
             Vec3f normal = CalculateNormal(j, i, localBuffer, width, height);
             float terrain_height = GetHeight(j, i, localBuffer, width, height);
             m_heights[j][i] = terrain_height;
-            vertices[vertexIndex * 3] = -(float)j / ((float) kVertexCount - 1) * kSize + m_x;
+            vertices[vertexIndex * 3] = (float)j / ((float) kVertexCount - 1) * kSize + m_x;
             vertices[vertexIndex * 3 + 1] = terrain_height;
-            vertices[vertexIndex * 3 + 2] = -(float)i / ((float)kVertexCount - 1) * kSize + m_y;
+            vertices[vertexIndex * 3 + 2] = (float)i / ((float)kVertexCount - 1) * kSize + m_y;
             normals[vertexIndex * 3] = normal.x;
             normals[vertexIndex * 3 + 1] = normal.y;
             normals[vertexIndex * 3 + 2] = normal.z;
