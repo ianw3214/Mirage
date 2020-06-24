@@ -29,9 +29,9 @@ float Terrain::GetHeightOfTerrain(float worldX, float worldY)
     float terrainX = worldX - m_x;
     float terrainY = worldY - m_y;
     float gridSquareSize = kSize / static_cast<float>(m_heights.size() - 1);
-    int gridX = static_cast<int>(terrainX / gridSquareSize);
-    int gridY = static_cast<int>(terrainY / gridSquareSize);
-    if (gridX >= m_heights.size() - 1 || gridY >= m_heights.size() - 1 || gridX < 0 || gridY < 0)
+    unsigned int gridX = static_cast<int>(terrainX / gridSquareSize);
+    unsigned int gridY = static_cast<int>(terrainY / gridSquareSize);
+    if (gridX >= m_heights.size() - 1 || gridY >= m_heights.size() - 1)
     {
         return 0.f;
     }

@@ -5,6 +5,7 @@ using namespace Mirage;
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 #include "core/application.hpp"
 #include "shader.hpp"
@@ -82,8 +83,8 @@ void Renderer::DrawModel(ModelRef modelRef, const Colour& colour)
     glm::mat4 model = glm::mat4(1.f);
     // column major so we translate first
     model = glm::translate(model, modelRef->GetPosition().Get());
-    // TODO: Implement rotate
-    // model = glm::rotate(model, angle, glm::vec3(0.f, 0.f, 1.f));
+    // Rotate by the rotation matrix calculated from quaternion
+    model *= glm::mat4_cast(modelRef->GetRotation());
     model = glm::scale(model, glm::vec3(modelRef->GetScale()));
     // glm::mat4 projection = glm::ortho(-8.f, 8.f, -6.f, 6.f, -10.f, 100.f);
     glm::mat4 view = camera->GetViewMatrix();

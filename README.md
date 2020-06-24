@@ -23,7 +23,7 @@
 - [x] Specify initial state (Reference Oasis game engine?)
   - [x] Remove polymorphism from Application class?
 - [x] Remove two project setup (too many headaches)
-- [ ] Quaternions (yay!)
+- [x] Quaternions (yay!)
 - [x] Lighting
 - [x] Setup ImGui
   - [ ] ImGui text input not working

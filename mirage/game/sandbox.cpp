@@ -92,6 +92,7 @@ public:
         ModelRef model = loader.getModel("res/test.obj");
         model->SetPosition(m_playerPos.x, m_playerPos.y + 1.f, m_playerPos.z);
         model->SetScale(1.f);
+        model->SetRotation(180.f, glm::vec3{0.f, 1.f, 0.f});
         Mirage::ApplicationManager::GetRenderer()->DrawModel(model);
 
         Mirage::ApplicationManager::GetRenderer()->DrawModel(terrain1->GetModel());
